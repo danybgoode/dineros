@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dineros.pages.dev/sitemap.xml

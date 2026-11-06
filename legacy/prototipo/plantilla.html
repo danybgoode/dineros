@@ -1,0 +1,834 @@
+<title>Ventanilla Abierta MX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: app shell; sticky top bar with view tabs, each view a working tool at rest. Jade ink + a single rosa mexicano accent. */
+:root{
+  --bg:#F3F6F4; --surface:#FFFFFF; --sunk:#E8EEEB; --ink:#10201C; --muted:#56675F; --line:#D5DFDA;
+  --jade:#0D5C4F; --jade-soft:#D9ECE6; --rosa:#C8076C; --rosa-soft:#FBE3EF;
+  --ok:#1C7A4C; --ok-soft:#DDF1E5; --warn:#9A5B00; --warn-soft:#FBEBD0; --crit:#B3261E; --crit-soft:#F9DEDB; --neutral:#4D5B66; --neutral-soft:#E3E8EC;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1412; --surface:#121E1B; --sunk:#0F1916; --ink:#E4EEEA; --muted:#93A69F; --line:#24342F;
+  --jade:#5CC6AE; --jade-soft:#163A33; --rosa:#FF5EAA; --rosa-soft:#3B1529;
+  --ok:#62CF93; --ok-soft:#14321F; --warn:#F2B451; --warn-soft:#3A2A0E; --crit:#FF7C73; --crit-soft:#3D1715; --neutral:#A7B4BE; --neutral-soft:#222C33;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1412; --surface:#121E1B; --sunk:#0F1916; --ink:#E4EEEA; --muted:#93A69F; --line:#24342F;
+  --jade:#5CC6AE; --jade-soft:#163A33; --rosa:#FF5EAA; --rosa-soft:#3B1529;
+  --ok:#62CF93; --ok-soft:#14321F; --warn:#F2B451; --warn-soft:#3A2A0E; --crit:#FF7C73; --crit-soft:#3D1715; --neutral:#A7B4BE; --neutral-soft:#222C33;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--jade)} a:hover{color:var(--rosa)}
+:focus-visible{outline:2px solid var(--rosa);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h2{font-size:1.65rem;line-height:1.15} h3{font-size:1.1rem}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* top bar */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand .mark{width:30px;height:30px;border-radius:8px;background:var(--jade);display:grid;place-items:center;color:var(--surface);font-family:var(--f-display);font-weight:700;font-size:15px}
+.brand b{font-family:var(--f-display);font-size:1.12rem;letter-spacing:-.01em}
+.brand small{display:block;font-size:.7rem;color:var(--muted);font-family:var(--f-mono);letter-spacing:.04em}
+nav.tabs{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+nav.tabs a{padding:7px 12px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:500;font-size:.92rem}
+nav.tabs a:hover{background:var(--sunk);color:var(--ink)}
+nav.tabs a[aria-current="page"]{background:var(--jade-soft);color:var(--jade)}
+.banner{background:var(--rosa-soft);color:var(--ink);font-size:.8rem}
+.banner .wrap{padding-block:6px}
+main{padding-block:28px 64px}
+section.view{display:grid;gap:22px}
+.lede{max-width:68ch;color:var(--muted);font-size:1rem}
+.head{display:grid;gap:8px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.pad{padding:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap;font-family:var(--f-body)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.crit{background:var(--crit-soft);color:var(--crit)} .pill.neutral{background:var(--neutral-soft);color:var(--neutral)}
+.pill.jade{background:var(--jade-soft);color:var(--jade)}
+button,.btn{font:inherit;font-weight:500;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--jade)}
+button.primary{background:var(--jade);border-color:var(--jade);color:var(--surface)}
+button.primary:hover{filter:brightness(1.08)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input[type=text],input[type=search],textarea,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
+textarea{resize:vertical}
+label{font-weight:500;font-size:.9rem}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th{text-align:left;font-weight:600;color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+
+/* ===== Asistente ===== */
+.chatgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;align-items:start}
+.chat{display:flex;flex-direction:column;min-height:620px;max-height:78vh}
+.chat-top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mode{display:flex;background:var(--sunk);border-radius:8px;padding:3px;gap:2px;margin-left:auto}
+.mode button{border:0;background:transparent;padding:5px 11px;font-size:.84rem;color:var(--muted)}
+.mode button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.msgs{flex:1;min-height:0;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:88%;display:grid;gap:6px}
+.msg.u{align-self:flex-end;background:var(--jade);color:var(--surface);padding:10px 14px;border-radius:14px 14px 4px 14px}
+.msg.a{align-self:flex-start;background:var(--sunk);padding:12px 15px;border-radius:14px 14px 14px 4px;cursor:pointer;border:1px solid transparent}
+.msg.a.sel{border-color:var(--jade)}
+.msg.a ul,.msg.a ol{margin:2px 0;padding-left:20px}
+.msg.a .cite{font-family:var(--f-mono);font-size:.72rem;background:var(--jade-soft);color:var(--jade);padding:0 5px;border-radius:4px;vertical-align:1px}
+.msg .meta{font-size:.72rem;color:var(--muted);font-family:var(--f-mono)}
+.msg .draft{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:10px;font-size:.86rem;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:.88rem}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.chips{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding:10px 16px;border-top:1px solid var(--line);flex:none}
+.chips button{font-size:.82rem;padding:6px 11px;border-radius:999px;background:var(--surface);white-space:nowrap;flex:none}
+.composer{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);flex:none}
+.composer input{flex:1}
+.thinking{display:inline-flex;gap:4px}
+.thinking i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.thinking i:nth-child(2){animation-delay:.15s}.thinking i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.25}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.thinking i{animation:none}}
+.evid{display:grid;gap:12px;position:sticky;top:84px}
+.src{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px;background:var(--surface)}
+.src .row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.src b{font-size:.9rem}
+.src code,.receipt code{font-family:var(--f-mono);font-size:.74rem;word-break:break-all;color:var(--muted)}
+.receipt{background:var(--sunk);border-radius:8px;padding:12px;display:grid;gap:6px;font-size:.84rem}
+.toollog{font-family:var(--f-mono);font-size:.76rem;display:grid;gap:4px}
+.toollog div{background:var(--sunk);padding:5px 8px;border-radius:6px;overflow-wrap:anywhere}
+
+/* ===== Auditoría ===== */
+.auditgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.statbar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--sunk)}
+.statbar span{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend b{color:var(--ink);font-variant-numeric:tabular-nums}
+.search{display:flex;gap:8px}
+.rfc{font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.days button{display:grid;gap:0;text-align:left;padding:6px 10px;min-width:84px}
+.days button small{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.days button[aria-pressed="true"]{border-color:var(--jade);background:var(--jade-soft)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:72px}
+.bars div{flex:1;display:grid;gap:3px;justify-items:center;text-align:center;line-height:1.2;font-size:.68rem;color:var(--muted);font-family:var(--f-mono)}
+.bars span{width:100%;background:var(--jade);border-radius:3px 3px 0 0;min-height:2px}
+.dofl{display:grid;gap:0;max-height:520px;overflow-y:auto}
+.dofl a{display:grid;gap:2px;padding:10px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.dofl a:hover{background:var(--sunk)}
+.dofl small{color:var(--muted);font-size:.74rem;font-family:var(--f-mono)}
+.ind{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ind div{background:var(--sunk);border-radius:8px;padding:10px}
+.ind b{display:block;font-family:var(--f-mono);font-size:1.15rem;font-variant-numeric:tabular-nums}
+.ind span{font-size:.74rem;color:var(--muted)}
+
+/* ===== Factibilidad ===== */
+.verdict{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px}
+.verdict .big{font-family:var(--f-display);font-size:1.5rem;line-height:1.2;font-weight:700}
+.scores{display:grid;gap:10px}
+.score{display:grid;grid-template-columns:minmax(0,1fr) 120px 28px;gap:10px;align-items:center;font-size:.88rem}
+.meter{display:flex;gap:3px}
+.meter i{flex:1;height:8px;border-radius:2px;background:var(--sunk)}
+.meter i.on{background:var(--jade)}
+.cmp td:first-child{font-weight:600;white-space:nowrap}
+.risks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.risk{border-left:3px solid var(--warn);padding:4px 0 4px 12px;display:grid;gap:4px}
+.risk.crit{border-color:var(--crit)}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{font-size:.8rem;padding:5px 10px}
+.filters button[aria-pressed="true"]{background:var(--jade-soft);border-color:var(--jade);color:var(--jade)}
+
+/* ===== Arquitectura ===== */
+.arch{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:14px}
+.layers{display:grid;gap:10px}
+.layer{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;padding:14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
+.layer h3{font-size:.95rem}
+.layer .boxes{display:flex;gap:6px;flex-wrap:wrap}
+.layer .boxes span{font-size:.8rem;padding:5px 9px;border-radius:6px;background:var(--sunk);border:1px solid var(--line)}
+.layer .boxes span.f2{border-style:dashed;color:var(--muted)}
+.layer.core{background:var(--jade-soft);border-color:var(--jade)}
+.side{display:grid;gap:10px;align-content:start}
+.side div{padding:12px;border-radius:var(--r);background:var(--rosa-soft);font-size:.84rem;display:grid;gap:4px}
+.flow{text-align:center;color:var(--muted);font-family:var(--f-mono);font-size:.72rem;margin:-4px 0}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.phase{display:grid;gap:8px;align-content:start;padding:16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
+.phase .n{font-family:var(--f-mono);font-size:.74rem;color:var(--rosa);font-weight:500}
+.phase ul{margin:0;padding-left:18px;font-size:.86rem;display:grid;gap:3px}
+.principles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.principles div{display:grid;gap:4px;font-size:.88rem}
+
+/* ===== Revisión ===== */
+.revgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;align-items:start}
+form.rev{display:grid;gap:16px}
+.rate{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.stars{display:flex;gap:4px}
+.stars button{width:34px;height:34px;padding:0;border-radius:8px;font-family:var(--f-mono)}
+.stars button[aria-pressed="true"]{background:var(--jade);color:var(--surface);border-color:var(--jade)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button[aria-pressed="true"]{background:var(--rosa-soft);border-color:var(--rosa);color:var(--rosa)}
+.note{font-size:.84rem;color:var(--muted)}
+.reviews{display:grid;gap:10px}
+.review{padding:12px;border:1px solid var(--line);border-radius:8px;display:grid;gap:6px;font-size:.88rem}
+.avg{display:grid;gap:8px}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:.88rem;z-index:20}
+
+@media (max-width:900px){
+  .chatgrid,.auditgrid,.verdict,.revgrid,.arch{grid-template-columns:minmax(0,1fr)}
+  .evid{position:static}
+  .phases{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .principles,.risks{grid-template-columns:minmax(0,1fr)}
+  .chat{max-height:none;min-height:540px}
+  .msgs{max-height:60vh}
+}
+@media (max-width:560px){
+  .phases{grid-template-columns:minmax(0,1fr)}
+  .layer{grid-template-columns:minmax(0,1fr)}
+  .ind{grid-template-columns:repeat(2,minmax(0,1fr))}
+  nav.tabs{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
+  .score{grid-template-columns:minmax(0,1fr) 90px 24px}
+  .msg{max-width:96%}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#asistente"><span class="mark">VA</span><span><b>Ventanilla Abierta</b><small>PROTOTIPO · MÉXICO</small></span></a>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#asistente">Asistente</a>
+      <a href="#auditoria">Auditoría</a>
+      <a href="#factibilidad">Factibilidad</a>
+      <a href="#arquitectura">Arquitectura y fases</a>
+      <a href="#revision">Revisión</a>
+    </nav>
+  </div>
+</header>
+<div class="banner"><div class="wrap">Prototipo independiente para evaluación. No es un sitio oficial del Gobierno de México. Los datos del DOF y del SAT son reales y se descargaron el <span id="gen" class="mono"></span>; las fichas de trámites son de ejemplo.</div></div>
+
+<main class="wrap">
+
+<!-- ================= ASISTENTE ================= -->
+<section class="view" id="v-asistente">
+  <div class="head">
+    <span class="eyebrow">Experiencia ciudadana</span>
+    <h2>Una sola conversación para todo el gobierno, y cada respuesta trae su evidencia</h2>
+    <p class="lede">Es el mismo concepto que America.gov (lanzado el 29 de sep. de 2026), con una diferencia: cada respuesta cita la fuente oficial y genera un recibo verificable. Prueba las preguntas sugeridas. El modo <b>Guion</b> funciona sin conexión. El modo <b>IA en vivo</b> consulta a Claude con herramientas sobre los mismos datos.</p>
+  </div>
+  <div class="chatgrid">
+    <div class="panel chat">
+      <div class="chat-top">
+        <span class="pill jade">Fuentes: DOF · SAT 69-B · Fichas</span>
+        <div class="mode" role="group" aria-label="Modo">
+          <button id="m-guion" aria-pressed="true">Guion</button>
+          <button id="m-ia" aria-pressed="false">IA en vivo</button>
+        </div>
+      </div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form class="composer" id="composer">
+        <input type="text" id="q" placeholder="Describe lo que necesitas… (p. ej. «¿qué publicó ayer el DOF?»)" autocomplete="off" aria-label="Tu pregunta">
+        <button class="primary" id="send" type="submit">Enviar</button>
+        <button id="stop" type="button" hidden>Detener</button>
+      </form>
+    </div>
+    <aside class="evid" aria-label="Evidencia">
+      <div class="panel pad" style="display:grid;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Evidencia de la respuesta</h3><span class="eyebrow" id="ev-n"></span></div>
+        <p class="note" id="ev-hint">Toca una respuesta para ver qué fuentes la sustentan.</p>
+        <div id="ev-src" style="display:grid;gap:8px"></div>
+        <div id="ev-tools" class="toollog"></div>
+        <div class="receipt" id="ev-rec" hidden></div>
+      </div>
+      <div class="panel pad note" style="display:grid;gap:6px">
+        <b style="color:var(--ink)">Privacidad en este prototipo</b>
+        <span>No guarda conversaciones. Si escribes una CURP, el asistente la detecta y la oculta antes de procesarla. Los recibos solo registran la pregunta normalizada, las fuentes y la versión de los datos.</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= AUDITORÍA ================= -->
+<section class="view" id="v-auditoria" hidden>
+  <div class="head">
+    <span class="eyebrow">Registros abiertos · datos reales</span>
+    <h2>Auditar sin pedir permiso</h2>
+    <p class="lede">Son dos fuentes oficiales que respondieron a una consulta automatizada y ya están cargadas completas en esta página. Este es el núcleo de la propuesta: cualquier persona puede verificar lo que dice el gobierno con el registro original.</p>
+  </div>
+  <div class="auditgrid">
+    <div class="panel pad" style="display:grid;gap:14px">
+      <div style="display:grid;gap:4px"><span class="eyebrow">SAT · Artículo 69-B CFF</span><h3>Empresas que facturan operaciones inexistentes (EFOS)</h3>
+      <p class="note" id="corte"></p></div>
+      <div class="statbar" id="efbar"></div>
+      <div class="legend" id="eflegend"></div>
+      <div class="search"><input type="search" id="efq" placeholder="RFC o razón social (p. ej. «CONSTRUCTORA» o «AAA080808HL8»)" aria-label="Buscar en 69-B"></div>
+      <div class="tablewrap"><table><thead><tr><th>RFC</th><th>Contribuyente</th><th>Situación</th><th>Últ. DOF</th></tr></thead><tbody id="eft"></tbody></table></div>
+      <p class="note" id="efcount"></p>
+      <details>
+        <summary style="cursor:pointer;font-weight:500">Revisar una lista de proveedores (pega RFCs)</summary>
+        <div style="display:grid;gap:8px;margin-top:10px">
+          <textarea id="bulk" rows="4" placeholder="Un RFC por línea, o separados por comas" aria-label="Lista de RFCs"></textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="primary" id="bulkgo" type="button">Revisar lista</button><button id="bulkdemo" type="button">Cargar ejemplo</button></div>
+          <div id="bulkout" class="note"></div>
+        </div>
+      </details>
+      <p class="note">«Definitivo» significa que el SAT concluyó que los comprobantes amparan operaciones inexistentes. «Sentencia favorable» y «Desvirtuado» significan que el contribuyente salió de la lista. Muestra siempre la situación exacta y su fecha para no dañar a terceros.</p>
+    </div>
+    <div class="panel pad" style="display:grid;gap:14px">
+      <div style="display:grid;gap:4px"><span class="eyebrow">Segob · Diario Oficial de la Federación</span><h3>Lo que el gobierno publicó, día por día</h3>
+      <p class="note">Viene de la API JSON del SIDOF, sin autenticación. Las ediciones matutina, vespertina y extraordinaria están en un solo listado.</p></div>
+      <div class="bars" id="dofbars" aria-label="Publicaciones por día"></div>
+      <div class="days" id="dofdays"></div>
+      <div class="ind" id="dofind"></div>
+      <div class="search"><input type="search" id="dofq" placeholder="Filtrar: ley, decreto, Banxico, salud…" aria-label="Filtrar DOF"></div>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="dofav"> Incluir avisos judiciales y convocatorias</label>
+      <div class="dofl" id="dofl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FACTIBILIDAD ================= -->
+<section class="view" id="v-factibilidad" hidden>
+  <div class="head">
+    <span class="eyebrow">Evaluación · pruebas del 5 nov 2026</span>
+    <h2>¿Se puede hacer en México?</h2>
+  </div>
+  <div class="verdict">
+    <div class="panel pad" style="display:grid;gap:12px">
+      <span class="pill ok" style="justify-self:start">Factible por fases</span>
+      <p class="big">Sí, empezando por información y auditoría con datos abiertos. Las transacciones requieren un convenio con la Agencia de Transformación Digital (ATDT) y Llave MX.</p>
+      <p class="muted">El marco legal ya empuja en esta dirección. La Ley Nacional para Eliminar Trámites Burocráticos (DOF 16-jul-2025) prevé un portal ciudadano único e interoperabilidad, y Llave MX como identidad digital ligada a la CURP (20.5 millones de usuarios, 168 sistemas). El hueco que nadie cubre todavía es una capa conversacional <b>auditable</b>: respuestas con cita, cruces entre fuentes y registros verificables. America.gov tampoco la tiene.</p>
+    </div>
+    <div class="panel pad scores" id="scores"></div>
+  </div>
+
+  <div class="panel pad" style="display:grid;gap:12px">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end">
+      <div style="display:grid;gap:4px"><h3>Fuentes probadas en vivo</h3><p class="note">Probadas desde un servidor fuera de México el 5 de noviembre de 2026, 04:46–04:51 UTC. Un 403 del CDN no significa que el dato sea cerrado: suele indicar bloqueo a tráfico extranjero o de centros de datos. Producción debe alojarse en México o lograr que nos incluyan en una lista de acceso.</p></div>
+      <div class="filters" id="srcf"></div>
+    </div>
+    <div class="tablewrap"><table><thead><tr><th>Fuente</th><th>Responsable</th><th>Resultado</th><th>Detalle de la prueba</th><th>Uso en el producto</th></tr></thead><tbody id="srct"></tbody></table></div>
+  </div>
+
+  <div class="panel pad" style="display:grid;gap:12px">
+    <h3>America.gov frente a la propuesta para México</h3>
+    <div class="tablewrap"><table class="cmp"><thead><tr><th></th><th>America.gov (EE. UU.)</th><th>Ventanilla Abierta (MX)</th></tr></thead><tbody id="cmpt"></tbody></table></div>
+  </div>
+
+  <div class="panel pad" style="display:grid;gap:14px">
+    <h3>Riesgos principales</h3>
+    <div class="risks" id="risks"></div>
+  </div>
+</section>
+
+<!-- ================= ARQUITECTURA ================= -->
+<section class="view" id="v-arquitectura" hidden>
+  <div class="head">
+    <span class="eyebrow">Diseño técnico de alto nivel</span>
+    <h2>Arquitectura y fases</h2>
+    <p class="lede">El modelo de lenguaje no es la fuente de verdad. Solo redacta. Las respuestas salen de herramientas que consultan registros versionados, y cada consulta deja un recibo.</p>
+  </div>
+  <div class="arch">
+    <div class="layers" id="layers"></div>
+    <div class="side">
+      <div><b>Alojamiento en México</b><span>Las pruebas muestran que varios portales oficiales bloquean tráfico extranjero. La ingesta y la inferencia deben correr en una región de nube en México.</span></div>
+      <div><b>Proveedor de IA intercambiable</b><span>El orquestador habla un protocolo estándar de herramientas (MCP), así que cambiar de modelo no obliga a reescribir los conectores.</span></div>
+      <div><b>Código abierto</b><span>Conectores, indicaciones y evaluaciones son públicos. Cualquiera puede reproducir una respuesta con el recibo.</span></div>
+    </div>
+  </div>
+  <div style="display:grid;gap:10px"><h3>Hoja de ruta</h3><div class="phases" id="phases"></div></div>
+  <div class="panel pad" style="display:grid;gap:12px"><h3>Principios de producto</h3><div class="principles" id="principles"></div></div>
+</section>
+
+<!-- ================= REVISIÓN ================= -->
+<section class="view" id="v-revision" hidden>
+  <div class="head">
+    <span class="eyebrow">Formulario de revisión</span>
+    <h2>Califica el prototipo</h2>
+    <p class="lede">Cada persona guarda su propia evaluación y todo el equipo ve las respuestas. Puedes editar la tuya cuando quieras.</p>
+  </div>
+  <div class="revgrid">
+    <form class="panel pad rev" id="revform">
+      <div id="rates"></div>
+      <div style="display:grid;gap:8px"><label>¿Seguimos con el proyecto?</label><div class="seg" id="go"></div></div>
+      <div style="display:grid;gap:6px"><label for="prio">¿Qué construimos primero?</label>
+        <select id="prio"><option value="">Elige una opción</option><option>Asistente de trámites (información)</option><option>Auditoría: cruces 69-B × contratos</option><option>Seguimiento del DOF y alertas</option><option>Generador de solicitudes de transparencia</option><option>Integración Llave MX (requiere convenio)</option></select></div>
+      <div style="display:grid;gap:6px"><label for="aud">¿Para quién es la primera versión?</label>
+        <select id="aud"><option value="">Elige una opción</option><option>Ciudadanía en general</option><option>Periodistas y sociedad civil</option><option>Servidores públicos / ATDT</option><option>Empresas y proveedores</option></select></div>
+      <div style="display:grid;gap:6px"><label for="com">Comentarios, dudas o fuentes que faltan</label><textarea id="com" rows="4" placeholder="Por ejemplo: falta la nómina de PEMEX, conviene empezar por un estado piloto…"></textarea></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="primary" type="submit" id="save">Guardar mi evaluación</button><span class="note" id="savenote"></span></div>
+    </form>
+    <div style="display:grid;gap:14px">
+      <div class="panel pad avg" id="avg"><h3>Resumen del equipo</h3><p class="note">Las respuestas aparecerán aquí cuando alguien guarde la primera evaluación.</p></div>
+      <div class="panel pad" style="display:grid;gap:10px"><h3>Respuestas</h3><div class="reviews" id="reviews"><p class="note">Todavía no hay evaluaciones guardadas. Llena el formulario para agregar la primera.</p></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>/*__DATOS__*/</script>
+<script>
+(function(){
+"use strict";
+const D = window.DATOS;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase();
+const nf = new Intl.NumberFormat("es-MX");
+$("#gen").textContent = D.meta.generado;
+
+/* ---------- datos: 69-B ---------- */
+const EF = D.efos;
+const ST = {D:{l:"Definitivo",c:"crit"},P:{l:"Presunto",c:"warn"},X:{l:"Desvirtuado",c:"neutral"},S:{l:"Sentencia favorable",c:"ok"}};
+const efIdx = EF.map(r => norm(r[0] + " " + r[1]));
+const rfcMap = new Map(EF.map(r => [r[0].toUpperCase(), r]));
+function buscar69b(q, lim){
+  lim = lim || 25; const n = norm(String(q).trim()); const out = [];
+  if (n.length < 3) return out;
+  for (let i = 0; i < EF.length && out.length < lim; i++) if (efIdx[i].includes(n)) out.push(EF[i]);
+  return out;
+}
+const efCounts = EF.reduce((a,r)=>(a[r[2]]=(a[r[2]]||0)+1,a),{});
+const CORTE = "31 de diciembre de 2025";
+
+/* ---------- datos: DOF ---------- */
+const DOF = D.dof;
+const fechaLarga = f => { const [d,m,y] = f.split("-"); return new Date(+y, m-1, +d).toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long",year:"numeric"}); };
+const fechaCorta = f => { const [d,m,y] = f.split("-"); return new Date(+y, m-1, +d).toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"}); };
+const dofUrl = (n,f) => "https://www.dof.gob.mx/nota_detalle.php?codigo=" + n.id + "&fecha=" + f.replace(/-/g,"/");
+const esAviso = n => /^(AVISOS|CONVOCATORIAS)/.test(n.p || "");
+const titleCase = s => String(s||"").toLowerCase().replace(/(^|\s)(\p{L})/gu,(m,a,b)=>a+b.toUpperCase()).replace(/\b(De|Del|La|Las|Los|Y|E|Para|El|En)\b/g,w=>w.toLowerCase());
+function indicadores(day){
+  const v = day.ind || [];
+  if (v.length >= 6) return [["Pesos por dólar (FIX)",v[0]],["Valor de la UDI",v[1]],["TIIE 28 días",v[2]],["TIIE 91 días",v[3]],["TIIE 182 días",v[4]],["TIIE de fondeo",v[5]]];
+  if (v.length === 1) return [["Valor de la UDI",v[0]]];
+  return v.map((x,i)=>["Indicador " + (i+1), x]);
+}
+function buscarDOF(q, fecha, lim){
+  lim = lim || 15; const n = norm(q || ""); const out = [];
+  for (const day of DOF){
+    if (fecha && day.f !== fecha) continue;
+    for (const no of day.notas){
+      if (!n && esAviso(no)) continue;
+      if (n && !norm(no.t + " " + no.o + " " + no.p).includes(n)) continue;
+      out.push({fecha: day.f, titulo: no.t, dependencia: no.o || no.p, url: dofUrl(no, day.f)});
+      if (out.length >= lim) return out;
+    }
+  }
+  return out;
+}
+
+/* ---------- fichas de trámites (ejemplo) ---------- */
+const TRAMITES = [
+  {id:"pasaporte", k:["PASAPORTE","VIAJAR","VISA"], t:"Pasaporte mexicano (primera vez o renovación)", dep:"Secretaría de Relaciones Exteriores", url:"https://citas.sre.gob.mx/", nivel:"Transacción en fase 3",
+   pasos:["Agenda una cita en el sistema de citas de la SRE.","Paga el derecho correspondiente (consulta la tarifa vigente en la SRE).","Acude con identificación oficial, acta de nacimiento o CURP certificada y comprobante de pago."], req:["Identificación oficial vigente","Acta de nacimiento","CURP","Comprobante de pago de derechos"]},
+  {id:"curp", k:["CURP","CLAVE UNICA"], t:"Consulta e impresión de CURP", dep:"Registro Nacional de Población (Segob)", url:"https://www.gob.mx/curp/", nivel:"Información (consulta directa en fase 2)",
+   pasos:["Entra a la consulta de CURP.","Busca por clave o por datos personales.","Descarga el formato en PDF."], req:["Nombre completo, fecha y entidad de nacimiento"]},
+  {id:"acta", k:["ACTA","NACIMIENTO"], t:"Copia certificada de acta de nacimiento", dep:"Registro Civil / Segob", url:"https://www.gob.mx/ActaNacimiento/", nivel:"Información (pago y descarga en fase 3)",
+   pasos:["Busca tu acta con tu CURP.","Paga en línea el costo de tu entidad.","Descarga e imprime el acta con firma electrónica."], req:["CURP","Medio de pago"]},
+  {id:"semanas", k:["SEMANAS","IMSS","COTIZADAS","JUBILAR","PENSION IMSS"], t:"Constancia de semanas cotizadas", dep:"Instituto Mexicano del Seguro Social", url:"https://serviciosdigitales.imss.gob.mx/semanascotizadas-web/usuarios/IngresoAsegurado", nivel:"Información (con Llave MX en fase 2)",
+   pasos:["Ingresa a Servicios Digitales del IMSS.","Captura CURP, número de seguridad social y correo.","Abre el enlace que llega al correo y descarga la constancia."], req:["CURP","Número de Seguridad Social","Correo electrónico"]},
+  {id:"csf", k:["CONSTANCIA","SITUACION FISCAL","SAT","CEDULA FISCAL"], t:"Constancia de Situación Fiscal", dep:"Servicio de Administración Tributaria", url:"https://www.sat.gob.mx/", nivel:"Información (con Llave MX en fase 2)",
+   pasos:["Entra al portal del SAT, sección Constancia de Situación Fiscal.","Autentícate con RFC y contraseña o e.firma.","Genera y descarga la constancia."], req:["RFC","Contraseña SAT o e.firma"]},
+  {id:"beca", k:["BECA","RITA CETINA","SECUNDARIA","PRIMARIA","ESCUELA"], t:"Beca universal Rita Cetina (educación básica)", dep:"Coordinación Nacional de Becas para el Bienestar", url:"https://www.gob.mx/becasbenitojuarez", nivel:"Información (registro y seguimiento en fase 2)",
+   pasos:["Revisa si la convocatoria está abierta (gob.mx la publica como vigente en noviembre de 2026).","Registra a la persona estudiante con la CURP de la madre, padre o tutor.","Da seguimiento con el folio de registro."], req:["CURP del tutor y de la persona estudiante","Datos de la escuela"]},
+  {id:"pension", k:["PENSION","ADULTOS MAYORES","BIENESTAR","PAGO"], t:"Pensión para el Bienestar de las Personas Adultas Mayores", dep:"Secretaría de Bienestar", url:"https://www.gob.mx/bienestar", nivel:"Información (consulta de calendario en fase 2)",
+   pasos:["Consulta el calendario de pagos por letra del primer apellido.","Verifica el depósito en tu tarjeta del Banco del Bienestar.","Para registrarte, acude a un Módulo de Bienestar en las fechas de registro."], req:["Identificación oficial","CURP","Comprobante de domicilio"]},
+  {id:"transparencia", k:["SOLICITUD","TRANSPARENCIA","ACCESO A LA INFORMACION","INFORMACION PUBLICA","PEDIR INFORMACION"], t:"Solicitud de acceso a la información pública", dep:"Plataforma Nacional de Transparencia (administrada por la Secretaría Anticorrupción y Buen Gobierno)", url:"https://www.plataformadetransparencia.org.mx/", nivel:"Borrador asistido (envío por la PNT)",
+   pasos:["El asistente redacta la solicitud contigo.","Envíala en la Plataforma Nacional de Transparencia (no hace falta identificarte).","El sujeto obligado tiene 20 días hábiles para responder."], req:["Descripción clara de la información","Sujeto obligado (dependencia)"]}
+];
+function buscarTramite(q){
+  const n = norm(q);
+  return TRAMITES.filter(t => t.k.some(k => n.includes(k)) || norm(t.t).includes(n)).slice(0,3);
+}
+
+/* ---------- catálogo de fuentes (resultado de pruebas) ---------- */
+const FUENTES = [
+  {n:"DOF · API SIDOF", r:"Segob", s:"abierto", d:"JSON sin autenticación, 0.4–0.9 s. Notas por día, texto completo e indicadores. 8 días descargados (536 notas).", u:"Novedades legales, alertas, indicadores", url:"https://sidof.segob.gob.mx/"},
+  {n:"Listado 69-B (EFOS)", r:"SAT", s:"abierto", d:"CSV de 4.5 MB en 4.7 s. 14,234 contribuyentes, corte al 31-dic-2025.", u:"Cruce de proveedores con empresas fantasma", url:"https://www.gob.mx/sat"},
+  {n:"SIE API", r:"Banco de México", s:"token", d:"Respondió «Token inválido»: la API funciona y pide un token gratuito.", u:"Series económicas", url:"https://www.banxico.org.mx/SieAPIRest/service/v1/"},
+  {n:"API BIE / DENUE", r:"INEGI", s:"token", d:"Respondió «No autorizado, utilice una clave válida»: pide un token gratuito.", u:"Estadística y directorio de negocios", url:"https://www.inegi.org.mx/"},
+  {n:"Portal gob.mx (buscador de trámites)", r:"ATDT", s:"portal", d:"HTTP 200 (JSF/PrimeFaces). Sin API pública documentada. El propio sitio dice que los trámites estatales y municipales aún no están integrados.", u:"Fichas de trámites y enlaces", url:"https://www.gob.mx/"},
+  {n:"Catálogo Nacional de Regulaciones, Trámites y Servicios", r:"ATDT / mejora regulatoria", s:"waf", d:"403 de Akamai desde fuera de México.", u:"Fuente canónica de requisitos y plazos", url:"https://catalogonacional.gob.mx/"},
+  {n:"datos.gob.mx (CKAN)", r:"ATDT", s:"waf", d:"403 de Akamai en el portal y en la API /api/3. api.datos.gob.mx agotó el tiempo de espera.", u:"Catálogo de datos abiertos federal", url:"https://datos.gob.mx/"},
+  {n:"Plataforma Nacional de Transparencia", r:"Sría. Anticorrupción y Buen Gobierno", s:"waf", d:"403 con desafío de Cloudflare. Medios reportan fallas y retrasos tras la extinción del INAI.", u:"Solicitudes de información y obligaciones de transparencia", url:"https://www.plataformadetransparencia.org.mx/"},
+  {n:"ComprasMX (sitio público)", r:"Sría. Anticorrupción y Buen Gobierno", s:"captcha", d:"El sitio responde 200, pero la consulta de procedimientos exige reCAPTCHA y cabeceras de desafío. No es apto para consulta automatizada, así que no se forzó.", u:"Contratos, licitaciones y adjudicaciones directas", url:"https://comprasmx.buengobierno.gob.mx/sitiopublico/"},
+  {n:"Llave MX", r:"ATDT", s:"convenio", d:"403 de Imperva. La integración (OIDC) requiere convenio con la ATDT.", u:"Identidad para trámites personales (fase 2)", url:"https://llave.gob.mx/"},
+  {n:"Plataforma Digital Nacional (S1–S6)", r:"SESNA", s:"token", d:"El dominio de la API responde. Los sistemas de declaraciones y sancionados piden credenciales.", u:"Declaraciones patrimoniales, servidores sancionados", url:"https://plataformadigitalnacional.org/"},
+  {n:"Nómina Transparente", r:"Gobierno federal (RHnet)", s:"portal", d:"HTTP 200, aplicación web. Falta identificar un endpoint de descarga.", u:"Sueldos de servidores públicos", url:"https://nominatransparente.rhnet.gob.mx/"},
+  {n:"Declaraciones patrimoniales", r:"Buen Gobierno", s:"portal", d:"HTTP 200, portal de consulta.", u:"Conflicto de interés", url:"https://servidorespublicos.gob.mx/"},
+  {n:"Auditoría Superior de la Federación", r:"Cámara de Diputados", s:"portal", d:"HTTP 200. Los informes se publican en PDF y hojas de cálculo.", u:"Observaciones de auditoría por dependencia", url:"https://www.asf.gob.mx/"},
+  {n:"Transparencia Presupuestaria", r:"SHCP", s:"caido", d:"Conexión rechazada desde fuera de México.", u:"Presupuesto y gasto por programa", url:"https://www.transparenciapresupuestaria.gob.mx/"},
+  {n:"Senado / SIL / Gaceta de Diputados", r:"Poder Legislativo", s:"waf", d:"Senado: 403 de Imperva. SIL y Gaceta: sin respuesta.", u:"Iniciativas y votaciones", url:"https://www.senado.gob.mx/"},
+  {n:"Datos abiertos IMSS", r:"IMSS", s:"waf", d:"503 de Imperva.", u:"Afiliación y empleo formal", url:"http://datos.imss.gob.mx/"},
+  {n:"CONEVAL", r:"CONEVAL", s:"portal", d:"HTTP 200. Bases de medición de pobreza descargables.", u:"Evaluación de programas sociales", url:"https://www.coneval.org.mx/"}
+];
+const SRC_ST = {abierto:["Abierto, probado","ok"],token:["Token gratuito","jade"],portal:["Portal sin API","neutral"],waf:["Bloqueado fuera de MX","warn"],captcha:["CAPTCHA","crit"],convenio:["Requiere convenio","warn"],caido:["Sin respuesta","crit"]};
+
+/* =================== ROUTER =================== */
+const VIEWS = ["asistente","auditoria","factibilidad","arquitectura","revision"];
+function route(){
+  const h = (location.hash || "").replace("#","");
+  const v = VIEWS.includes(h) ? h : "asistente";
+  VIEWS.forEach(x => { $("#v-" + x).hidden = x !== v; });
+  document.querySelectorAll("nav.tabs a").forEach(a => { if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  if (v !== "asistente") window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+
+/* =================== ASISTENTE =================== */
+const msgsEl = $("#msgs");
+const answers = [];   // {html, sources:[], tools:[], receipt}
+let mode = "guion";
+let sampleFn = null;
+const turns = [];      // live mode transcript
+let ctl = null;
+
+const CHIPS = [
+  "¿Qué publicó el DOF ayer?",
+  "¿La empresa AAA080808HL8 está en la lista de empresas fantasma?",
+  "Quiero renovar mi pasaporte",
+  "¿A cuánto está el dólar FIX y la UDI?",
+  "Quiero pedir a la SEP los contratos de libros de texto 2026",
+  "¿Qué contratos tiene el gobierno con una empresa?"
+];
+CHIPS.forEach(c => { const b = document.createElement("button"); b.type = "button"; b.textContent = c; b.onclick = () => ask(c); $("#chips").append(b); });
+
+function redactar(s){ return String(s).replace(/\b[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d\b/gi, "[CURP oculta]"); }
+
+function addMsg(role, html){
+  const d = document.createElement("div"); d.className = "msg " + role; d.innerHTML = html; msgsEl.append(d); msgsEl.scrollTop = msgsEl.scrollHeight; return d;
+}
+async function sha256(s){
+  try { const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join(""); }
+  catch(e){ let h = 0; for (const c of s) h = (h*31 + c.charCodeAt(0)) >>> 0; return "fnv-" + h.toString(16); }
+}
+async function finalize(el, q, ans){
+  const ts = new Date().toISOString();
+  const payload = JSON.stringify({q: norm(q).slice(0,200), fuentes: ans.sources.map(s=>s.id), datos: D.meta.generado, ts});
+  ans.receipt = {hash: await sha256(payload), ts, n: answers.length + 1};
+  answers.push(ans);
+  const idx = answers.length - 1;
+  el.dataset.i = idx;
+  const meta = document.createElement("div"); meta.className = "meta";
+  meta.textContent = "Recibo #" + ans.receipt.n + " · " + ans.receipt.hash.slice(0,12) + "… · " + ans.sources.length + " fuente(s)";
+  el.append(meta);
+  el.onclick = () => showEvidence(idx);
+  showEvidence(idx);
+}
+function showEvidence(i){
+  const a = answers[i]; if (!a) return;
+  document.querySelectorAll(".msg.a").forEach(m => m.classList.toggle("sel", m.dataset.i == i));
+  $("#ev-hint").hidden = true;
+  $("#ev-n").textContent = "Respuesta " + (i+1);
+  $("#ev-src").innerHTML = a.sources.length ? a.sources.map((s,k) => `<div class="src"><div class="row"><b>[${k+1}] ${esc(s.name)}</b><span class="pill ${s.pill||"ok"}">${esc(s.status||"Dato oficial")}</span></div><span class="note">${esc(s.detail||"")}</span>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener">Abrir registro original ↗</a>`:""}</div>`).join("") : `<div class="src"><b>Sin fuente</b><span class="note">La respuesta no cita registros. En producción una respuesta así no se mostraría.</span></div>`;
+  $("#ev-tools").innerHTML = (a.tools||[]).map(t => `<div>→ ${esc(t)}</div>`).join("");
+  const r = a.receipt; const rec = $("#ev-rec"); rec.hidden = !r;
+  if (r) rec.innerHTML = `<b>Recibo de consulta #${r.n}</b><span>SHA-256 de la pregunta normalizada, las fuentes, la versión de los datos y la hora.</span><code>${r.hash}</code><span class="mono" style="font-size:.74rem">${esc(r.ts)} · datos ${esc(D.meta.generado)}</span>`;
+}
+
+/* ---- respuestas con guion (deterministas, sobre datos reales) ---- */
+function srcDOF(day){ return {id:"dof:"+day.f, name:"Diario Oficial de la Federación, " + fechaLarga(day.f), detail:"API SIDOF (Segob) · " + day.notas.length + " publicaciones · respondió en " + day.lat + " s", url:"https://www.dof.gob.mx/index.php?year="+day.f.slice(6)+"&month="+day.f.slice(3,5)+"&day="+day.f.slice(0,2), status:"Dato oficial", pill:"ok"}; }
+const SRC69 = {id:"sat:69b", name:"SAT · Listado completo Art. 69-B CFF", detail:"Corte al " + CORTE + " · 14,234 registros · CSV oficial", url:"https://www.gob.mx/sat/acciones-y-programas/notificacion-a-contribuyentes-con-operaciones-presuntamente-inexistentes-y-listados-definitivos-333336", status:"Dato oficial", pill:"ok"};
+function srcTramite(t){ return {id:"tramite:"+t.id, name:t.dep, detail:"Ficha de ejemplo del prototipo. En producción viene del Catálogo Nacional de Regulaciones, Trámites y Servicios.", url:t.url, status:"Ficha de ejemplo", pill:"warn"}; }
+
+function guion(qRaw){
+  const q = norm(qRaw);
+  const rfcs = qRaw.toUpperCase().match(/\b[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}\b/g);
+  if (rfcs){
+    const rows = rfcs.map(r => [r, rfcMap.get(r)]);
+    const html = rows.map(([r,row]) => row
+      ? `<p><b class="rfc">${esc(r)}</b> · ${esc(row[1])} <b>sí aparece</b> en el listado del artículo 69-B. Situación: <span class="pill ${ST[row[2]].c}">${ST[row[2]].l}</span>${row[3]?` (última publicación en el DOF: ${esc(row[3])})`:""}. <span class="cite">1</span></p>${row[2]==="S"||row[2]==="X"?`<p>La situación «${ST[row[2]].l}» significa que el contribuyente <b>acreditó sus operaciones o ganó en tribunales</b>, así que no debe tratarse como empresa fantasma.</p>`:""}`
+      : `<p><b class="rfc">${esc(r)}</b> <b>no aparece</b> en el listado del 69-B con corte al ${CORTE}. <span class="cite">1</span> Eso no garantiza que la empresa esté en regla: solo indica que el SAT no la ha publicado en esa lista.</p>`).join("");
+    return {html, sources:[SRC69], tools:["consultar_69b(" + rfcs.join(", ") + ")"]};
+  }
+  if (/\b(DOF|DIARIO OFICIAL|PUBLICO|PUBLICARON|DECRETO|NUEVA LEY)\b/.test(q) && !/DOLAR|UDI|TIIE/.test(q)){
+    const day = DOF[0];
+    const rel = day.notas.filter(n => !esAviso(n));
+    const laws = rel.filter(n => /^(DECRETO|LEY|ACUERDO|REGLAMENTO|LINEAMIENTOS|NORMA)/i.test(n.t)).slice(0,6);
+    const byP = rel.reduce((a,n)=>(a[n.o||n.p]=(a[n.o||n.p]||0)+1,a),{});
+    const top = Object.entries(byP).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    return {html:`<p>El ${fechaLarga(day.f)} el DOF publicó <b>${day.notas.length} documentos</b>. De ellos, ${rel.length} son de dependencias y el resto son avisos y convocatorias. <span class="cite">1</span></p><p><b>Lo más relevante:</b></p><ul>${laws.map(n=>`<li><a href="${dofUrl(n,day.f)}" target="_blank" rel="noopener">${esc(n.t.length>160?n.t.slice(0,157)+"…":n.t)}</a> <span class="muted">· ${esc(titleCase(n.o||n.p))}</span></li>`).join("")}</ul><p class="muted">Más activos: ${top.map(([k,v])=>esc(titleCase(k))+" ("+v+")").join(", ")}.</p>`, sources:[srcDOF(day)], tools:["buscar_dof(fecha=" + day.f + ")"]};
+  }
+  if (/DOLAR|UDI|TIIE|TIPO DE CAMBIO|TASA/.test(q)){
+    const day = DOF.find(d => d.ind.length >= 6) || DOF[0]; const prev = DOF.filter(d => d.ind.length >= 6)[1];
+    const ind = indicadores(day);
+    const delta = prev ? (parseFloat(day.ind[0]) - parseFloat(prev.ind[0])) : 0;
+    return {html:`<p>Indicadores publicados en el DOF el ${fechaLarga(day.f)}: <span class="cite">1</span></p><dl class="kv">${ind.map(([k,v])=>`<dt>${esc(k)}</dt><dd class="mono">${esc(v)}</dd>`).join("")}</dl>${prev?`<p class="muted">El tipo de cambio ${delta<0?"bajó":"subió"} ${Math.abs(delta).toFixed(4)} pesos frente al ${fechaCorta(prev.f)}.</p>`:""}`, sources:[srcDOF(day)], tools:["indicadores_dof(fecha=" + day.f + ")"]};
+  }
+  if (/CONTRATO|LICITACION|ADJUDICACION|COMPRAS|PROVEEDOR/.test(q) && !/SOLICITUD|PEDIR|SEP/.test(q)){
+    return {html:`<p>Hoy no puedo responder eso con evidencia. ComprasMX, que sustituyó a CompraNet, tiene un sitio público, pero su buscador exige reCAPTCHA y no ofrece una API abierta. <span class="cite">1</span></p><p>Para producción hay tres caminos:</p><ol><li>Usar las descargas masivas de la sección «Contrataciones Públicas» de Data Buen Gobierno (habilitada en julio de 2026).</li><li>Firmar un convenio de acceso por API con la Secretaría Anticorrupción y Buen Gobierno.</li><li>Pedirlo por transparencia. Puedo redactarte la solicitud.</li></ol><p>Con esos datos, el cruce contratos × lista 69-B sale automático.</p>`, sources:[{id:"cmx", name:"ComprasMX · sitio público", detail:"Probado el 5-nov-2026: requiere reCAPTCHA y cabeceras de desafío.", url:"https://comprasmx.buengobierno.gob.mx/sitiopublico/", status:"Brecha de datos", pill:"crit"}], tools:["catalogo_fuentes(\"contrataciones\") → sin conector abierto"]};
+  }
+  const tr = buscarTramite(qRaw);
+  if (tr.length){
+    const t = tr[0];
+    if (t.id === "transparencia" || /SOLICIT|PEDIR/.test(q)){
+      const tema = qRaw.replace(/^(quiero|necesito)?\s*(pedir|solicitar)\s*(a|al|a la)?\s*/i,"").trim();
+      const draft = `Sujeto obligado: ${/SEP/.test(q)?"Secretaría de Educación Pública":"(dependencia)"}\n\nCon fundamento en el artículo 6º de la Constitución y en la Ley General de Transparencia y Acceso a la Información Pública, solicito:\n\n1. ${tema.charAt(0).toUpperCase()+tema.slice(1)}, en formato abierto (CSV o XLSX).\n2. Para cada contrato: número, proveedor y RFC, monto, fecha, procedimiento de contratación y anexos técnicos.\n3. Si alguna parte es reservada, la versión pública y el acta del Comité de Transparencia.\n\nModalidad de entrega: electrónica, a través de la Plataforma Nacional de Transparencia.`;
+      const t2 = TRAMITES.find(x=>x.id==="transparencia");
+      return {html:`<p>Te dejo un borrador listo para la Plataforma Nacional de Transparencia. <span class="cite">1</span></p><div class="draft">${esc(draft)}</div><ol>${t2.pasos.map(p=>`<li>${esc(p)}</li>`).join("")}</ol><p class="muted">En producción el asistente recordaría el folio y te avisaría cuando venza el plazo.</p>`, sources:[srcTramite(t2)], tools:["buscar_tramite(\"solicitud de información\")","redactar_solicitud(tema)"]};
+    }
+    return {html:`<p><b>${esc(t.t)}</b> <span class="cite">1</span></p><ol>${t.pasos.map(p=>`<li>${esc(p)}</li>`).join("")}</ol><p><b>Necesitas:</b> ${t.req.map(esc).join(" · ")}</p><p><a href="${esc(t.url)}" target="_blank" rel="noopener">Ir al trámite oficial ↗</a></p><p class="muted">Nivel de integración: ${esc(t.nivel)}.</p>`, sources:[srcTramite(t)], tools:["buscar_tramite(\"" + qRaw.slice(0,40) + "\")"]};
+  }
+  const nameHits = buscar69b(qRaw.replace(/^.*(empresa|compañia|proveedor)\s+/i,""), 5);
+  if (/FANTASMA|69-?B|EFOS|FACTURERA/.test(q) && nameHits.length){
+    return {html:`<p>Encontré ${nameHits.length} coincidencia(s) en el listado 69-B: <span class="cite">1</span></p><ul>${nameHits.map(r=>`<li><span class="rfc">${esc(r[0])}</span> ${esc(r[1])} <span class="pill ${ST[r[2]].c}">${ST[r[2]].l}</span></li>`).join("")}</ul>`, sources:[SRC69], tools:["consultar_69b(nombre)"]};
+  }
+  const dofHits = buscarDOF(qRaw, null, 5);
+  if (dofHits.length){
+    return {html:`<p>No tengo una ficha para eso, pero encontré estas publicaciones en el DOF de los últimos días: <span class="cite">1</span></p><ul>${dofHits.map(h=>`<li><a href="${h.url}" target="_blank" rel="noopener">${esc(h.titulo.slice(0,150))}</a> <span class="muted">· ${fechaCorta(h.fecha)}</span></li>`).join("")}</ul>`, sources:[srcDOF(DOF.find(d=>d.f===dofHits[0].fecha))], tools:["buscar_dof(\"" + qRaw.slice(0,40) + "\")"]};
+  }
+  return {html:`<p>No encontré una fuente que responda eso, y prefiero no inventar. En este prototipo tengo:</p><ul><li>El DOF de los últimos días (con indicadores)</li><li>El listado 69-B del SAT (RFC o razón social)</li><li>${TRAMITES.length} fichas de trámites de ejemplo</li></ul><p class="muted">Cambia a «IA en vivo» para hacer preguntas más abiertas sobre los mismos datos.</p>`, sources:[], tools:["sin coincidencias"]};
+}
+
+/* ---- modo IA en vivo (Claude con herramientas sobre los datos de la página) ---- */
+const RULES = `Eres "Ventanilla Abierta", un asistente ciudadano del Estado mexicano (prototipo independiente, no oficial). Reglas:
+- Responde en español claro, breve (máx. ~180 palabras), con pasos numerados cuando aplique.
+- SOLO afirma hechos que vengan de las herramientas. Si no hay fuente, dilo y sugiere cómo obtenerla (p. ej. solicitud de transparencia). Nunca inventes requisitos, montos ni fechas.
+- Cita cada hecho con [1], [2]… en el orden de las fuentes que usaste, y al final agrega una línea "Fuentes:" con el nombre de cada fuente.
+- Para el 69-B, reporta la situación exacta (Definitivo, Presunto, Desvirtuado, Sentencia favorable) y aclara que "Desvirtuado" o "Sentencia favorable" significan que la empresa salió de la lista. No acuses a nadie.
+- Las fichas de trámites son ejemplos del prototipo: indica que se verifiquen en el enlace oficial.
+- Nunca pidas ni repitas CURP, RFC de personas físicas u otros datos personales.
+- Formato: texto plano con **negritas** y listas con "- " o "1. ". Fecha de hoy: 5 de noviembre de 2026.`;
+let liveLog = null, liveSources = null;
+const TOOLS = [
+  {name:"buscar_dof", description:"Busca publicaciones del Diario Oficial de la Federación (últimos 8 días disponibles: " + DOF.map(d=>d.f).join(", ") + "). Devuelve hasta 15 notas con fecha, título, dependencia y URL. Sin 'consulta' devuelve lo principal del día.",
+   inputSchema:{type:"object",properties:{consulta:{type:"string",description:"palabras clave, opcional"},fecha:{type:"string",description:"DD-MM-AAAA, opcional"}}},
+   execute(i){ const r = buscarDOF(String(i.consulta||""), i.fecha?String(i.fecha):null, 15); liveLog.push(`buscar_dof(${JSON.stringify(i)}) → ${r.length}`); const f = r[0] ? DOF.find(d=>d.f===r[0].fecha) : DOF[0]; addSrc(srcDOF(f)); return r; }},
+  {name:"indicadores_dof", description:"Devuelve tipo de cambio FIX, UDI y TIIE publicados en el DOF para una fecha (DD-MM-AAAA) o la más reciente.",
+   inputSchema:{type:"object",properties:{fecha:{type:"string"}}},
+   execute(i){ const day = (i.fecha && DOF.find(d=>d.f===String(i.fecha))) || DOF.find(d=>d.ind.length>=6); liveLog.push(`indicadores_dof(${day.f})`); addSrc(srcDOF(day)); return {fecha:day.f, indicadores:Object.fromEntries(indicadores(day))}; }},
+  {name:"consultar_69b", description:"Consulta el listado oficial del SAT de contribuyentes del artículo 69-B (corte 31-dic-2025) por RFC exacto o por fragmento de razón social. Devuelve hasta 10 coincidencias con situación y fecha de publicación en el DOF.",
+   inputSchema:{type:"object",properties:{rfc:{type:"string"},nombre:{type:"string"}}},
+   execute(i){ let r = []; if (i.rfc) { const x = rfcMap.get(String(i.rfc).toUpperCase().trim()); if (x) r = [x]; } else if (i.nombre) r = buscar69b(String(i.nombre), 10);
+     liveLog.push(`consultar_69b(${JSON.stringify(i)}) → ${r.length}`); addSrc(SRC69); return {corte:CORTE, resultados:r.map(x=>({rfc:x[0], nombre:x[1], situacion:ST[x[2]].l, publicacion_dof:x[3]}))}; }},
+  {name:"buscar_tramite", description:"Busca fichas de trámites federales del prototipo (pasaporte, CURP, acta, semanas IMSS, constancia SAT, becas, pensión, transparencia). Devuelve pasos, requisitos y URL oficial.",
+   inputSchema:{type:"object",properties:{consulta:{type:"string"}},required:["consulta"]},
+   execute(i){ const r = buscarTramite(String(i.consulta||"")); liveLog.push(`buscar_tramite(${JSON.stringify(i)}) → ${r.length}`); r.forEach(t=>addSrc(srcTramite(t))); return r.map(t=>({titulo:t.t, dependencia:t.dep, url:t.url, pasos:t.pasos, requisitos:t.req, nivel:t.nivel})); }},
+  {name:"catalogo_fuentes", description:"Lista las fuentes de datos públicas evaluadas, si están abiertas o bloqueadas, y para qué sirven. Úsala cuando pregunten por datos que no tienes (contratos, presupuesto, nómina…).",
+   execute(){ liveLog.push("catalogo_fuentes()"); return FUENTES.map(f=>({fuente:f.n, responsable:f.r, estado:SRC_ST[f.s][0], uso:f.u})); }}
+];
+function addSrc(s){ if (!liveSources.some(x=>x.id===s.id)) liveSources.push(s); }
+function md(t){
+  let h = esc(t);
+  h = h.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\[(\d{1,2})\]/g,'<span class="cite">$1</span>').replace(/(https?:\/\/[^\s<)]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+  const lines = h.split("\n"); let out = "", list = null;
+  for (const ln of lines){
+    const m = ln.match(/^\s*(?:[-•]|(\d+)\.)\s+(.*)$/);
+    if (m){ const tag = m[1] ? "ol" : "ul"; if (list !== tag){ if (list) out += `</${list}>`; out += `<${tag}>`; list = tag; } out += `<li>${m[2]}</li>`; }
+    else { if (list){ out += `</${list}>`; list = null; } if (ln.trim()) out += `<p>${ln}</p>`; }
+  }
+  if (list) out += `</${list}>`;
+  return out;
+}
+async function live(q, el){
+  liveLog = []; liveSources = [];
+  turns.push({role:"user", content:q});
+  while (turns.length > 12) turns.splice(0,2);
+  ctl = new AbortController();
+  $("#stop").hidden = false; $("#send").disabled = true;
+  try {
+    const {text} = await sampleFn([{role:"user", content:RULES}, ...turns], {tools:TOOLS, modelTier:"quick", signal:ctl.signal, onText:({text}) => { el.innerHTML = md(text); msgsEl.scrollTop = msgsEl.scrollHeight; }});
+    turns.push({role:"assistant", content:text});
+    el.innerHTML = md(text);
+    await finalize(el, q, {html:el.innerHTML, sources:liveSources, tools:liveLog});
+  } catch(e){
+    turns.pop();
+    const msg = {not_granted:"No se autorizó el uso de Claude en esta página. Sigue en modo Guion.", rate_limited:"Hay demasiadas consultas seguidas. Espera un momento y vuelve a intentar.", cancelled:"Detenido.", refused:"Claude no respondió esa pregunta. Reformúlala.", sampling_disabled:"Claude no está disponible para esta cuenta."}[e && e.code] || "Falló la conexión con Claude. Vuelve a intentarlo.";
+    el.innerHTML = (e && e.text ? md(e.text) : "") + `<p class="muted">${msg}</p>`;
+    if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) setMode("guion", true);
+  } finally { $("#stop").hidden = true; $("#send").disabled = false; }
+}
+$("#stop").onclick = () => ctl && ctl.abort();
+
+async function ask(raw){
+  const q = redactar(raw.trim()); if (!q) return;
+  addMsg("u", esc(q));
+  $("#q").value = "";
+  const el = addMsg("a", `<span class="thinking" aria-label="Pensando"><i></i><i></i><i></i></span>`);
+  if (mode === "ia" && sampleFn){ await live(q, el); return; }
+  await new Promise(r => setTimeout(r, 380));
+  const ans = guion(q);
+  el.innerHTML = ans.html;
+  await finalize(el, q, ans);
+}
+$("#composer").addEventListener("submit", e => { e.preventDefault(); ask($("#q").value); });
+
+function setMode(m, lock){
+  mode = m; $("#m-guion").setAttribute("aria-pressed", m==="guion"); $("#m-ia").setAttribute("aria-pressed", m==="ia");
+  if (lock){ $("#m-ia").disabled = true; $("#m-ia").title = "No disponible en esta vista"; }
+}
+$("#m-guion").onclick = () => setMode("guion");
+$("#m-ia").onclick = () => { if (sampleFn) setMode("ia"); };
+$("#m-ia").disabled = true; $("#m-ia").title = "Se activa al abrir la página en claude.ai";
+
+/* saludo inicial: conversación de ejemplo con datos reales */
+addMsg("a", `<p>Hola. Pregúntame por un trámite, por lo que publicó el gobierno en el DOF o por una empresa en la lista del SAT. Cada respuesta trae sus fuentes y un recibo.</p>`);
+(async () => { const q = CHIPS[0]; addMsg("u", esc(q)); const el = addMsg("a",""); const a = guion(q); el.innerHTML = a.html; await finalize(el, q, a); })();
+
+/* =================== AUDITORÍA =================== */
+(function(){
+  const order = ["D","P","X","S"], col = {D:"var(--crit)",P:"var(--warn)",X:"var(--neutral)",S:"var(--ok)"};
+  $("#efbar").innerHTML = order.map(k => `<span style="width:${(efCounts[k]/EF.length*100).toFixed(2)}%;background:${col[k]}" title="${ST[k].l}: ${efCounts[k]}"></span>`).join("");
+  $("#eflegend").innerHTML = order.map(k => `<span><b>${nf.format(efCounts[k])}</b> ${ST[k].l}</span>`).join("") + `<span>de <b>${nf.format(EF.length)}</b> registros</span>`;
+  $("#corte").textContent = "Listado completo con corte al " + CORTE + ". Descargado del CSV oficial del SAT en " + D.meta.lat69b + " s.";
+  function render(){
+    const q = $("#efq").value; const r = q.trim().length >= 3 ? buscar69b(q, 50) : EF.filter(x=>x[2]==="D").slice(-8).reverse();
+    $("#eft").innerHTML = r.map(x => `<tr><td class="rfc">${esc(x[0])}</td><td>${esc(x[1])}</td><td><span class="pill ${ST[x[2]].c}">${ST[x[2]].l}</span></td><td class="mono" style="white-space:nowrap">${esc(x[3])}</td></tr>`).join("") || `<tr><td colspan="4" class="muted">Sin coincidencias en el listado.</td></tr>`;
+    $("#efcount").textContent = q.trim().length >= 3 ? (r.length === 50 ? "Primeras 50 coincidencias. Afina la búsqueda." : r.length + " coincidencia(s).") : "Ejemplo: últimos registros definitivos del listado. Escribe al menos 3 caracteres para buscar.";
+  }
+  $("#efq").addEventListener("input", render); render();
+  $("#bulkdemo").onclick = () => { $("#bulk").value = [EF[0][0], EF[1][0], "XAXX010101000", EF.find(r=>r[2]==="D")[0], "ABC123456T12"].join("\n"); };
+  $("#bulkgo").onclick = () => {
+    const list = [...new Set($("#bulk").value.toUpperCase().split(/[\s,;]+/).filter(Boolean))];
+    if (!list.length){ $("#bulkout").textContent = "Pega al menos un RFC."; return; }
+    const hits = list.map(r => [r, rfcMap.get(r)]); const found = hits.filter(h=>h[1]); const def = found.filter(h=>h[1][2]==="D");
+    $("#bulkout").innerHTML = `<p><b>${found.length} de ${list.length}</b> RFC aparecen en el listado y <b style="color:var(--crit)">${def.length}</b> están en situación definitiva.</p><div class="tablewrap"><table><tbody>${hits.map(([r,x])=>`<tr><td class="rfc">${esc(r)}</td><td>${x?esc(x[1]):'<span class="muted">No aparece</span>'}</td><td>${x?`<span class="pill ${ST[x[2]].c}">${ST[x[2]].l}</span>`:""}</td></tr>`).join("")}</tbody></table></div>`;
+  };
+
+  let cur = DOF[0].f;
+  const max = Math.max(...DOF.map(d=>d.notas.length));
+  const chron = DOF.slice().reverse();
+  $("#dofbars").innerHTML = chron.map(d => `<div title="${d.notas.length} publicaciones"><span style="height:${Math.round(d.notas.length/max*36)}px"></span>${d.notas.length}<br>${d.f.slice(0,5).replace("-","/")}</div>`).join("");
+  function days(){
+    $("#dofdays").innerHTML = DOF.map(d => `<button type="button" data-f="${d.f}" aria-pressed="${d.f===cur}">${fechaCorta(d.f)}<small>${d.notas.length} notas</small></button>`).join("");
+    document.querySelectorAll("#dofdays button").forEach(b => b.onclick = () => { cur = b.dataset.f; days(); list(); });
+  }
+  function list(){
+    const day = DOF.find(d=>d.f===cur); const q = norm($("#dofq").value); const av = $("#dofav").checked;
+    $("#dofind").innerHTML = indicadores(day).map(([k,v]) => `<div><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join("");
+    const ns = day.notas.filter(n => (av || !esAviso(n)) && (!q || norm(n.t+" "+n.o+" "+n.p).includes(q)));
+    $("#dofl").innerHTML = ns.map(n => `<a href="${dofUrl(n,day.f)}" target="_blank" rel="noopener"><span>${esc(n.t)}</span><small>${esc(titleCase(n.o||n.p))} · edición ${n.ed==="Mat"?"matutina":n.ed==="Ves"?"vespertina":"extraordinaria"} · nota ${n.id}</small></a>`).join("") || `<p class="note" style="padding:10px 0">No hay publicaciones con ese filtro. Activa «Incluir avisos» o cambia de día.</p>`;
+  }
+  $("#dofq").addEventListener("input", list); $("#dofav").addEventListener("change", list);
+  days(); list();
+})();
+
+/* =================== FACTIBILIDAD =================== */
+(function(){
+  const S = [["Datos para auditoría",3,"Existen y varios están abiertos, pero dispersos y algunos bloqueados fuera de México"],["Información de trámites",3,"El catálogo nacional existe; no se probó una API abierta"],["Marco legal",4,"La LNETB y la LGTAIP obligan a la interoperabilidad y a la publicidad"],["Identidad digital",4,"Llave MX está madura; solo se puede usar con convenio"],["Transacciones",2,"Dependen de cada dependencia y de la ATDT"],["Estabilidad institucional",2,"La transición del INAI y fallas de la PNT"]];
+  $("#scores").innerHTML = `<h3>Puntaje por dimensión</h3>` + S.map(([k,v,n]) => `<div class="score" title="${esc(n)}"><span>${k}<br><span class="note">${n}</span></span><span class="meter">${[1,2,3,4,5].map(i=>`<i class="${i<=v?"on":""}"></i>`).join("")}</span><b class="mono">${v}/5</b></div>`).join("");
+  let f = "todos";
+  const keys = ["todos", ...Object.keys(SRC_ST)];
+  function render(){
+    $("#srcf").innerHTML = keys.map(k => { const n = k==="todos"?FUENTES.length:FUENTES.filter(x=>x.s===k).length; if(!n) return ""; return `<button type="button" data-k="${k}" aria-pressed="${f===k}">${k==="todos"?"Todas":SRC_ST[k][0]} · ${n}</button>`; }).join("");
+    document.querySelectorAll("#srcf button").forEach(b => b.onclick = () => { f = b.dataset.k; render(); });
+    $("#srct").innerHTML = FUENTES.filter(x => f==="todos" || x.s===f).map(x => `<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener"><b>${esc(x.n)}</b></a></td><td class="muted">${esc(x.r)}</td><td><span class="pill ${SRC_ST[x.s][1]}">${SRC_ST[x.s][0]}</span></td><td style="min-width:240px">${esc(x.d)}</td><td style="min-width:160px">${esc(x.u)}</td></tr>`).join("");
+  }
+  render();
+  const C = [
+    ["Lanzamiento","29 de septiembre de 2026, con orden ejecutiva","Propuesta. La base legal es la LNETB (julio de 2025)"],
+    ["Alcance","~29,000 sitios federales indexados","Federal primero; estados y municipios por convenio (gob.mx todavía no los integra)"],
+    ["Hoy hace","Responde con información pública; casi todo lo transaccional dice «próximamente»","Información + auditoría con datos reales desde la fase 1"],
+    ["Identidad","Login.gov (pasaporte en diciembre de 2026)","Llave MX (OIDC) en la fase 2, con convenio con la ATDT"],
+    ["Modelos","Gemini confirmado; Grok según el diseñador en jefe","Proveedor intercambiable vía MCP; inferencia alojada en México"],
+    ["Privacidad","No guarda conversaciones ni usa ubicación precisa","Igual, más ocultamiento automático de CURP/RFC y recibos sin datos personales"],
+    ["Rendición de cuentas","No publica sus fuentes por respuesta ni un registro auditable","Cada respuesta cita el registro original y genera un recibo SHA-256; código abierto"],
+    ["Crítica principal","«Es fácil construir algo muy superficial» (M. Dickerson, ex-USDS)","Mitigación: empezar donde hay datos reales y medir respuestas con evaluaciones públicas"]
+  ];
+  $("#cmpt").innerHTML = C.map(r => `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+  const R = [
+    ["crit","Alucinaciones en temas legales","Una respuesta inventada sobre requisitos o plazos daña a la gente. Mitigación: sin fuente no hay respuesta, más citas obligatorias y evaluaciones públicas por trámite."],
+    ["crit","Acceso a datos desde fuera de México","Siete de las 18 fuentes probadas bloquearon o no respondieron (403 de Akamai, Cloudflare o Imperva). Mitigación: infraestructura en México y convenios de acceso."],
+    ["warn","Dependencia institucional","Las transacciones y Llave MX requieren a la ATDT. Mitigación: la fase 1 no necesita permiso; usarla como prueba para un convenio."],
+    ["warn","Daño reputacional a terceros","Mostrar a una empresa como «fantasma» cuando ya ganó en tribunales sería grave. Mitigación: mostrar la situación exacta, la fecha y el corte; nunca resumir como «culpable»."],
+    ["warn","Transición de la transparencia","La PNT cambió de administrador tras la extinción del INAI y hay reportes de fallas. Mitigación: copia propia de las obligaciones publicadas y monitoreo de disponibilidad."],
+    ["warn","Brecha digital","Una interfaz web no llega a todos. Mitigación: WhatsApp y línea 079 por voz en la fase 2, y lenguas indígenas en la hoja de ruta."]
+  ];
+  $("#risks").innerHTML = R.map(([c,t,d]) => `<div class="risk ${c}"><b>${t}</b><span class="note">${d}</span></div>`).join("");
+})();
+
+/* =================== ARQUITECTURA =================== */
+(function(){
+  const L = [
+    ["Canales","Web y móvil",["Web","WhatsApp (F2)","Voz 079 (F2)","Lenguas indígenas (F3)","API pública"],0],
+    ["Orquestador","LLM + reglas",["Clasificador de intención","Ocultamiento de datos personales","Citas obligatorias","Sin fuente no hay respuesta","Evaluaciones continuas"],1],
+    ["Herramientas","Un conector MCP por fuente",["buscar_dof","consultar_69b","buscar_tramite","contrataciones (F1b)","presupuesto (F1b)","nómina (F1b)","inegi / banxico","solicitud_pnt"],0],
+    ["Datos","Ingesta versionada",["Descargas programadas","Corte con hash por versión","Índice de búsqueda + vectores","Detección de cambios (diff)"],0],
+    ["Identidad y trámites","Fase 2–3, con convenio",["Llave MX (OIDC)","Expediente del ciudadano","Envío a la dependencia","Seguimiento de folios"],0],
+    ["Auditoría","Pública",["Recibos por respuesta","Bitácora anónima agregada","Tablero de calidad","Repositorio abierto"],0]
+  ];
+  $("#layers").innerHTML = L.map(([t,s,b,core],i) => (i?`<div class="flow">↕</div>`:"") + `<div class="layer${core?" core":""}"><div><h3>${t}</h3><span class="note">${s}</span></div><div class="boxes">${b.map(x=>`<span class="${/\(F[23]\)|Llave|Expediente|Envío|Seguimiento/.test(x)?"f2":""}">${x}</span>`).join("")}</div></div>`).join("");
+  const P = [
+    ["Fase 0 · 4 semanas","Descubrimiento",["Alojamiento en México y tokens INEGI/Banxico","Inventario de los 100 trámites más buscados","Entrevistas con ATDT y Buen Gobierno","Evaluaciones base (200 preguntas reales)"]],
+    ["Fase 1 · 3 meses","Información + auditoría",["Asistente con DOF, 69-B y trámites","Generador de solicitudes de transparencia","Alertas del DOF por tema","Lanzamiento abierto y código público"]],
+    ["Fase 1b · +2 meses","Cruces",["Contratos (Data Buen Gobierno) × 69-B","Presupuesto × gasto × ASF","Nómina y declaraciones","Tablero para periodistas"]],
+    ["Fase 2–3 · con convenio","Cuenta y trámites",["Inicio de sesión con Llave MX","Seguimiento de folios y citas","Pago y envío de trámites seleccionados","WhatsApp y 079"]]
+  ];
+  $("#phases").innerHTML = P.map(([n,t,l]) => `<div class="phase"><span class="n">${n}</span><h3>${t}</h3><ul>${l.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+  const Q = [["Sin fuente no hay respuesta","Si ninguna herramienta devuelve un registro, el asistente lo dice y propone cómo obtenerlo."],["Reproducible","El recibo permite repetir la consulta sobre el mismo corte de datos y obtener la misma evidencia."],["Mínimos datos personales","No se guardan conversaciones. La CURP y el RFC de personas físicas se ocultan antes de llegar al modelo."],["Solo lectura primero","Ninguna acción en nombre de la persona antes del convenio con Llave MX."],["Neutralidad","Se muestran registros tal como los publica la autoridad, con fecha y situación exacta."],["Medible","Hay un tablero público de precisión por trámite y por fuente."]];
+  $("#principles").innerHTML = Q.map(([t,d]) => `<div><b>${t}</b><span class="note">${d}</span></div>`).join("");
+})();
+
+/* =================== REVISIÓN =================== */
+const MODS = [["asistente","Asistente conversacional"],["auditoria","Herramientas de auditoría"],["factibilidad","Evaluación de factibilidad"],["arquitectura","Arquitectura y fases"]];
+const GO = ["Sí, adelante","Sí, con cambios","Necesito más información","No por ahora"];
+const form = {rates:{}, go:""};
+$("#rates").innerHTML = `<label>Califica cada módulo (1 = flojo, 5 = excelente)</label>` + MODS.map(([k,l]) => `<div class="rate"><span>${l}</span><div class="stars" role="group" aria-label="${l}">${[1,2,3,4,5].map(n=>`<button type="button" id="r-${k}-${n}" data-k="${k}" data-n="${n}" aria-pressed="false">${n}</button>`).join("")}</div></div>`).join("");
+$("#go").innerHTML = GO.map((g,i) => `<button type="button" id="go-${i}" data-g="${g}" aria-pressed="false">${g}</button>`).join("");
+function paintForm(){
+  document.querySelectorAll(".stars button").forEach(b => b.setAttribute("aria-pressed", form.rates[b.dataset.k] == b.dataset.n));
+  document.querySelectorAll("#go button").forEach(b => b.setAttribute("aria-pressed", form.go === b.dataset.g));
+}
+document.querySelectorAll(".stars button").forEach(b => b.onclick = () => { form.rates[b.dataset.k] = +b.dataset.n; paintForm(); });
+document.querySelectorAll("#go button").forEach(b => b.onclick = () => { form.go = b.dataset.g; paintForm(); });
+function toast(t){ const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.append(d); setTimeout(()=>d.remove(), 2600); }
+
+let db = null, user = null, uid = null;
+function setRO(msg){ $("#save").disabled = true; $("#savenote").textContent = msg; }
+async function renderReviews(docs){
+  const rows = docs.map(d => ({id:d.id, ...d.data()}));
+  if (!rows.length){ $("#reviews").innerHTML = `<p class="note">Todavía no hay evaluaciones guardadas. Llena el formulario para agregar la primera.</p>`; $("#avg").innerHTML = `<h3>Resumen del equipo</h3><p class="note">Las respuestas aparecerán aquí cuando alguien guarde la primera evaluación.</p>`; return; }
+  let ps = {}; try { ps = user ? await user.profiles(rows.map(r=>r.id)) : {}; } catch(e){}
+  const name = id => (ps[id] && ps[id].name) || (id === uid ? "Tú" : "Alguien del equipo");
+  $("#reviews").innerHTML = rows.sort((a,b)=>String(b.at).localeCompare(String(a.at))).map(r => `<div class="review"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b></b><span class="note mono">${esc(String(r.at||"").slice(0,16).replace("T"," "))}</span></div><div style="display:flex;gap:6px;flex-wrap:wrap">${r.go?`<span class="pill ${/^Sí/.test(r.go)?"ok":/más/.test(r.go)?"warn":"crit"}">${esc(r.go)}</span>`:""}${r.prio?`<span class="pill jade">${esc(r.prio)}</span>`:""}</div><span class="note">${MODS.map(([k,l])=>r.rates&&r.rates[k]?`${l.split(" ")[0]} ${r.rates[k]}/5`:"").filter(Boolean).join(" · ")}${r.aud?" · Público: "+esc(r.aud):""}</span>${r.com?`<p></p>`:""}</div>`).join("");
+  document.querySelectorAll("#reviews .review").forEach((el,i) => { const r = rows[i]; el.querySelector("b").textContent = name(r.id); const p = el.querySelector("p"); if (p) p.textContent = r.com; });
+  const avgs = MODS.map(([k,l]) => { const v = rows.map(r=>r.rates&&r.rates[k]).filter(Boolean); return [l, v.length ? v.reduce((a,b)=>a+b,0)/v.length : null, v.length]; });
+  const goC = GO.map(g => [g, rows.filter(r=>r.go===g).length]);
+  $("#avg").innerHTML = `<h3>Resumen del equipo · ${rows.length} evaluación(es)</h3>` + avgs.map(([l,a,n]) => `<div class="score"><span>${l}</span><span class="meter">${[1,2,3,4,5].map(i=>`<i class="${a&&i<=Math.round(a)?"on":""}"></i>`).join("")}</span><b class="mono">${a?a.toFixed(1):"–"}</b></div>`).join("") + `<div class="legend">${goC.map(([g,n])=>`<span><b>${n}</b> ${g}</span>`).join("")}</div>`;
+  const mine = rows.find(r => r.id === uid);
+  if (mine && !form._loaded){ form._loaded = true; form.rates = mine.rates || {}; form.go = mine.go || ""; $("#prio").value = mine.prio || ""; $("#aud").value = mine.aud || ""; $("#com").value = mine.com || ""; paintForm(); $("#savenote").textContent = "Cargamos tu evaluación anterior. Puedes editarla."; }
+}
+$("#revform").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!db || !uid){ setRO("Para guardar, abre esta página en claude.ai con tu sesión iniciada."); return; }
+  if (!Object.keys(form.rates).length && !form.go){ $("#savenote").textContent = "Califica al menos un módulo o elige si seguimos."; return; }
+  $("#save").disabled = true; $("#savenote").textContent = "Guardando…";
+  try {
+    await db.doc("reviews/" + uid).set({rates:form.rates, go:form.go, prio:$("#prio").value, aud:$("#aud").value, com:$("#com").value.slice(0,2000), at:new Date().toISOString()});
+    $("#savenote").textContent = "Guardado. Todo el equipo ya ve tu evaluación."; toast("Evaluación guardada");
+  } catch(err){
+    if (err && err.code === "invalid_argument") setRO("Tu nivel de acceso no permite guardar. Pide acceso de colaborador a quien compartió la página.");
+    else $("#savenote").textContent = "No se pudo guardar. Vuelve a intentarlo en un momento.";
+  } finally { if (!$("#savenote").textContent.startsWith("Tu nivel")) $("#save").disabled = false; }
+});
+
+/* capacidades de la plataforma */
+(async () => {
+  if (!window.claude || !window.claude.use){ setRO("Para guardar evaluaciones compartidas, abre esta página en claude.ai."); return; }
+  try {
+    const s = await window.claude.use("sample");
+    if (s){ const lim = await s.limits().catch(()=>null); if (!lim || lim.tools){ sampleFn = s; $("#m-ia").disabled = false; $("#m-ia").title = "Claude responde con herramientas sobre los datos de esta página"; } }
+  } catch(e){}
+  try {
+    db = await window.claude.use("db"); user = await window.claude.use("user");
+    if (user) uid = await user.id();
+    if (!db || !uid){ setRO("Inicia sesión en claude.ai para guardar tu evaluación."); return; }
+    if (user.can){ const w = await user.can("data.write"); if (w === false) setRO("Tienes acceso de solo lectura. Pide acceso de colaborador para evaluar."); }
+    const timer = setTimeout(() => { $("#reviews").innerHTML = `<p class="note">No pudimos cargar las evaluaciones todavía. Seguimos intentando.</p>`; }, 10000);
+    db.collection("reviews").onSnapshot(snap => { if (!snap.metadata.fromCache) clearTimeout(timer); renderReviews(snap.docs); }, () => { clearTimeout(timer); $("#reviews").innerHTML = `<p class="note">Las evaluaciones no están disponibles en esta vista.</p>`; });
+  } catch(e){ setRO("Las evaluaciones compartidas no están disponibles en esta vista."); }
+})();
+
+route();
+})();
+</script>

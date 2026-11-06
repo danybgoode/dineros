@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fuentes y método · Dineros</title>
+<meta name="description" content="Cada archivo oficial que usa Dineros, con su liga, fecha de descarga y huella digital SHA-256 para verificarlo.">
+<meta property="og:title" content="Fuentes y método · Dineros">
+<meta property="og:description" content="Cada archivo oficial que usa Dineros, con su liga, fecha de descarga y huella digital SHA-256 para verificarlo.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dineros.pages.dev/fuentes/">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://dineros.pages.dev/fuentes/">
+<link rel="icon" href="/assets/icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/estilo.css?v=947853">
+</head>
+<body data-page="fuentes">
+<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
+  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+</div></header>
+<main id="contenido" class="wrap">
+<section class="head">
+  <span class="eyebrow">Fuentes y método</span>
+  <h1>Todo se puede verificar</h1>
+  <p class="lede">Cada cifra de este sitio sale de un archivo oficial. Abajo está cada uno con la fecha en que lo descargamos y su huella digital (SHA-256). Si descargas el mismo archivo y la huella coincide, tienes exactamente los mismos datos que usamos.</p>
+</section>
+<section><div id="lista"><p class="loading">Cargando…</p></div></section>
+<section class="prose">
+  <h2>Cómo calculamos</h2>
+  <p><b>Ingresos y gasto totales.</b> Vienen de las Estadísticas Oportunas de Finanzas Públicas de Hacienda, sector público federal presupuestario. Los totales anuales suman los 12 meses y el avance de 2026 suma de enero al último mes publicado.</p>
+  <p><b>Lo que se esperaba recaudar.</b> Sale del artículo 1 de la Ley de Ingresos de cada año, tomado del texto oficial del Diario Oficial. A «Ingresos totales» le restamos los ingresos por financiamiento (deuda) para compararlo con lo recaudado.</p>
+  <p><b>Aprobado contra ejercido.</b> Viene de la Cuenta Pública 2025: columnas «original bruto» y «ejercido bruto». Las sumas por ramo son brutas, así que incluyen transferencias entre dependencias.</p>
+  <p><b>Avance 2026.</b> Compara lo pagado con lo aprobado calendarizado hasta septiembre (reporte trimestral de avance del gasto).</p>
+  <p><b>Estados.</b> Suma el gasto ejercido de los ramos 28 y 33 clasificado en cada estado y lo divide entre la población proyectada por CONAPO para 2025.</p>
+  <p><b>SAT.</b> Solo publicamos totales y conteos. No mostramos nombres ni RFC de personas.</p>
+  <p><b>Limitaciones.</b> Las cifras están en pesos corrientes, sin ajustar por inflación. Un sobreejercicio no es por sí mismo una irregularidad: indica que el gasto cambió respecto a lo que votaron los diputados. Los portales oficiales pueden corregir sus archivos. Si encuentras un error, <a href="https://github.com/danybgoode/dineros/issues">repórtalo en GitHub</a>.</p>
+  <p><b>Actualización.</b> Los datos se descargan desde México con el código abierto del repositorio (<code>pipeline/</code>), porque varios portales oficiales bloquean el tráfico extranjero.</p>
+</section>
+
+</main>
+<footer><div class="wrap">
+  <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
+  <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
+</div></footer>
+<script src="/assets/app.js?v=947853" defer></script>
+</body>
+</html>

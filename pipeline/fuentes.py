@@ -1,0 +1,98 @@
+"""Catálogo de fuentes oficiales. Cada entrada se descarga a data/raw/<archivo>."""
+
+PTP = "https://www.transparenciapresupuestaria.gob.mx/work/models/PTP/DatosAbiertos"
+EOPF = "https://www.secciones.hacienda.gob.mx/work/models/estadisticas_oportunas/datos_abiertos_eopf"
+
+FUENTES = [
+    {
+        "id": "cuenta_publica_2025",
+        "nombre": "Cuenta Pública 2025: gasto por clave presupuestaria",
+        "responsable": "SHCP · Transparencia Presupuestaria",
+        "url": f"{PTP}/BD_Cuenta_Publica/CSV/cuenta_publica_2025_gf_ecd_epe.csv",
+        "archivo": "cuenta_publica_2025.csv",
+        "uso": "Aprobado, modificado y ejercido 2025 por ramo, función, programa y estado",
+    },
+    {
+        "id": "avance_3t_2026",
+        "nombre": "Avance del gasto al tercer trimestre de 2026",
+        "responsable": "SHCP · Transparencia Presupuestaria",
+        "url": f"{PTP}/Bases_de_datos_presupuesto/CSV/pef_ac01_avance_3t_2026.csv",
+        "archivo": "avance_3t_2026.csv",
+        "uso": "Gasto pagado de enero a septiembre de 2026 contra lo aprobado",
+    },
+    {
+        "id": "pef_2026",
+        "nombre": "Presupuesto de Egresos de la Federación 2026",
+        "responsable": "SHCP · Transparencia Presupuestaria",
+        "url": f"{PTP}/Bases_de_datos_presupuesto/CSV/PEF_2026.csv",
+        "archivo": "pef_2026.csv",
+        "uso": "Presupuesto aprobado 2026 (base de comparación para 2027)",
+    },
+    {
+        "id": "ppef_2027",
+        "nombre": "Proyecto de Presupuesto de Egresos 2027",
+        "responsable": "SHCP · Transparencia Presupuestaria",
+        "url": f"{PTP}/Bases_de_datos_presupuesto/CSV/PPEF_2027.csv",
+        "archivo": "ppef_2027.csv",
+        "uso": "Lo que el Ejecutivo propuso gastar en 2027",
+    },
+    {
+        "id": "ingreso_gasto_finan",
+        "nombre": "Estadísticas oportunas: ingreso, gasto y financiamiento (mensual)",
+        "responsable": "SHCP · Estadísticas Oportunas de Finanzas Públicas",
+        "url": f"{EOPF}/ingreso_gasto_finan.csv",
+        "archivo": "ingreso_gasto_finan.csv",
+        "uso": "Recaudación observada por impuesto, mes a mes",
+    },
+    {
+        "id": "lif_2025",
+        "nombre": "Ley de Ingresos de la Federación 2025 (DOF 19-12-2024)",
+        "responsable": "DOF · Segob",
+        "url": "https://sidof.segob.gob.mx/dof/sidof/notas/nota/5745785",
+        "archivo": "lif_2025.json",
+        "uso": "Ingresos estimados (lo que se esperaba recaudar) en 2025",
+        "pagina": "https://www.dof.gob.mx/nota_detalle.php?codigo=5745785&fecha=19/12/2024",
+    },
+    {
+        "id": "lif_2026",
+        "nombre": "Ley de Ingresos de la Federación 2026 (DOF 07-11-2025)",
+        "responsable": "DOF · Segob",
+        "url": "https://sidof.segob.gob.mx/dof/sidof/notas/nota/5772357",
+        "archivo": "lif_2026.json",
+        "uso": "Ingresos estimados (lo que se esperaba recaudar) en 2026",
+        "pagina": "https://www.dof.gob.mx/nota_detalle.php?codigo=5772357&fecha=07/11/2025",
+    },
+    {
+        "id": "sat_cancelados",
+        "nombre": "SAT · Contribuyentes con créditos fiscales cancelados (art. 69 CFF)",
+        "responsable": "SAT",
+        "url": "http://omawww.sat.gob.mx/cifras_sat/Documents/Cancelados.csv",
+        "archivo": "sat_cancelados.csv",
+        "uso": "Deudas fiscales que el SAT dio por incobrables, con monto",
+    },
+    {
+        "id": "sat_firmes",
+        "nombre": "SAT · Contribuyentes con créditos fiscales firmes (art. 69 CFF)",
+        "responsable": "SAT",
+        "url": "http://omawww.sat.gob.mx/cifras_sat/Documents/Firmes.csv",
+        "archivo": "sat_firmes.csv",
+        "uso": "Contribuyentes con deudas fiscales definitivas sin pagar",
+    },
+    {
+        "id": "sat_69b",
+        "nombre": "SAT · Listado completo art. 69-B (EFOS)",
+        "responsable": "SAT",
+        "url": "http://omawww.sat.gob.mx/cifras_sat/Documents/Listado_Completo_69-B.csv",
+        "archivo": "sat_69b.csv",
+        "uso": "Empresas que facturan operaciones simuladas",
+    },
+    {
+        "id": "poblacion_2025",
+        "nombre": "Población por entidad 2025 (proyecciones CONAPO, vía Wikipedia)",
+        "responsable": "CONAPO",
+        "url": "https://es.wikipedia.org/w/api.php?action=parse&page=Anexo:Entidades_federativas_de_M%C3%A9xico_por_poblaci%C3%B3n&prop=wikitext&format=json&formatversion=2",
+        "archivo": "poblacion_2025.json",
+        "uso": "Cálculos por persona en cada estado",
+        "pagina": "https://www.gob.mx/conapo/documentos/reconstruccion-y-proyecciones-de-la-poblacion-de-los-municipios-de-mexico-1990-2040",
+    },
+]

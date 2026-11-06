@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ingresos · Dineros</title>
+<meta name="description" content="Lo que el gobierno esperaba recaudar contra lo que recaudó en 2025 y en 2026, impuesto por impuesto, y cuánto dejó de cobrar el SAT.">
+<meta property="og:title" content="Ingresos · Dineros">
+<meta property="og:description" content="Lo que el gobierno esperaba recaudar contra lo que recaudó en 2025 y en 2026, impuesto por impuesto, y cuánto dejó de cobrar el SAT.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dineros.pages.dev/ingresos/">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://dineros.pages.dev/ingresos/">
+<link rel="icon" href="/assets/icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/estilo.css?v=947853">
+</head>
+<body data-page="ingresos">
+<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
+  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+</div></header>
+<main id="contenido" class="wrap">
+<section class="head">
+  <span class="eyebrow">Ingresos</span>
+  <h1>¿Se recaudó lo que se prometió?</h1>
+  <p class="lede">Cada año el Congreso aprueba la <dfn title="La ley que fija cuánto espera cobrar el gobierno en el año, concepto por concepto.">Ley de Ingresos</dfn>. Aquí comparamos esa promesa con lo que de verdad entró a la caja.</p>
+</section>
+
+<section>
+  <div class="head">
+    <span class="eyebrow">2025 · año cerrado</span>
+    <h2>En 2025 se cobró un poco más de lo esperado, salvo el IEPS</h2>
+    <p class="lede">El IEPS es el impuesto a gasolinas, refrescos, alcohol y tabaco. Quedó 6% por debajo de la meta, mientras que los impuestos a la importación la superaron.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel"><h3>Diferencia contra lo esperado</h3><div id="esperado-2025"><p class="loading">Cargando…</p></div>
+      <div class="legend"><span><i style="background:var(--up)"></i>Se cobró más</span><span><i style="background:var(--down)"></i>Se cobró menos</span></div></div>
+    <div id="tabla-2025"></div>
+  </div>
+  <p class="note">Las cifras están en miles de millones de pesos (mmdp). Para «Ingresos totales» se resta la deuda que la Ley de Ingresos también cuenta como ingreso.</p>
+</section>
+
+<section>
+  <div class="head">
+    <span class="eyebrow">2026 · acumulado a <span id="ult">…</span></span>
+    <h2>En 2026 la recaudación va más lenta que el año pasado</h2>
+    <p class="lede">Cada barra muestra qué parte de la meta anual ya se cobró. La rayita negra marca cuánto se llevaba a la misma fecha de 2025. El ISR va atrás. Los impuestos a la importación van muy por debajo de una meta que se planeó mucho más alta.</p>
+  </div>
+  <div class="panel" id="pace"><p class="loading">Cargando…</p></div>
+</section>
+
+<section>
+  <div class="head">
+    <span class="eyebrow">ISR por año · 2015–2025</span>
+    <h2>El ISR es el impuesto más importante</h2>
+    <p class="lede">Lo pagan las empresas sobre sus ganancias y las personas sobre su sueldo (te lo retienen en la nómina). Es más de un tercio de todo lo que entra.</p>
+  </div>
+  <div class="panel" id="isr-iva"><p class="loading">Cargando…</p></div>
+</section>
+
+<section>
+  <div class="head">
+    <span class="eyebrow">SAT · listas públicas del artículo 69 del Código Fiscal</span>
+    <h2>Lo que no se cobró</h2>
+    <p class="lede">El SAT publica a quienes tienen deudas fiscales que ya no va a cobrar: <dfn title="El deudor no tiene bienes con qué pagar.">insolvencia</dfn> o <dfn title="Cobrar costaría más que la deuda.">incosteabilidad</dfn>. Publica también a quienes deben y no han pagado. Aquí solo mostramos totales, nunca nombres.</p>
+  </div>
+  <div class="bignums">
+    <div class="bignum debt"><span class="eyebrow">Deudas canceladas</span><span class="v" id="canc-total">…</span><span class="pp"><span id="canc-n">…</span> casos</span></div>
+    <div class="bignum out"><span class="eyebrow">El 1% más grande</span><span class="v" id="canc-top">…</span><span class="pp">del monto total cancelado</span></div>
+    <div class="bignum out"><span class="eyebrow">Solo 100 deudores</span><span class="v" id="canc-top100">…</span><span class="pp">entre todos</span></div>
+  </div>
+  <p id="canc-tipo"></p>
+  <div class="panel"><h3>Monto cancelado por año</h3><div id="canc-anio"><p class="loading">Cargando…</p></div>
+    <p class="note">La mayor parte del monto se canceló de 2015 a 2019. De 2020 en adelante el SAT cancela sobre todo deudas pequeñas. El SAT publica estas listas por mandato del artículo 69 del Código Fiscal de la Federación.</p></div>
+  <p id="firmes"></p>
+</section>
+
+</main>
+<footer><div class="wrap">
+  <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
+  <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
+</div></footer>
+<script src="/assets/app.js?v=947853" defer></script>
+</body>
+</html>
