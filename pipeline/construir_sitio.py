@@ -11,7 +11,7 @@ import shutil
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SRC = RAIZ / "site_src"
 OUT = RAIZ / "site"
-SITIO = "https://dineros.pages.dev"
+SITIO = "https://dineros.battle-for-la-roma.workers.dev"
 
 NAV = [("inicio", "/", "Resumen"), ("ingresos", "/ingresos/", "Ingresos"), ("gasto", "/gasto/", "Gasto"),
        ("estados", "/estados/", "Estados"), ("p2027", "/2027/", "Presupuesto 2027"),

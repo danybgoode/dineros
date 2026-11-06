@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://dineros.pages.dev/sitemap.xml
+Sitemap: https://dineros.battle-for-la-roma.workers.dev/sitemap.xml

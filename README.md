@@ -2,7 +2,7 @@
 
 **El dinero público de México, en claro.** Cuánto recaudó y cuánto gastó el gobierno federal, en qué, dónde se desvió de lo aprobado y cuánto llega a cada estado. Todo con datos oficiales y en lenguaje claro.
 
-- Sitio: https://dineros.pages.dev
+- Sitio: https://dineros.battle-for-la-roma.workers.dev
 - Fuentes: SHCP (Transparencia Presupuestaria y Estadísticas Oportunas), DOF (Ley de Ingresos), SAT (listas del art. 69 y 69-B del CFF), CONAPO.
 
 ## Cómo se construye
@@ -10,7 +10,7 @@
 python3 pipeline/descargar.py      # descarga los archivos oficiales a data/raw/ (corre desde México)
 python3 pipeline/procesar.py       # genera site/data/*.json
 python3 pipeline/construir_sitio.py  # arma site/ a partir de site_src/
-npx wrangler pages deploy site --project-name dineros
+set -a; . ./.env.local; set +a; CLOUDFLARE_API_TOKEN=$API_TOKEN CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID npx wrangler@4 deploy
 ```
 Solo usa la biblioteca estándar de Python y `curl`. Los archivos crudos (~650 MB) no se versionan. Su URL, fecha y SHA-256 quedan en `site/data/fuentes.json`.
 
