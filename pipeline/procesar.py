@@ -377,9 +377,72 @@ def construir_sat():
         n += 1; tipo[x[I["TIPO PERSONA"]].strip()] += 1; est[x[I["ENTIDAD FEDERATIVA"]].strip().title()] += 1
     firmes = {"registros": n, "personas_fisicas": tipo["F"], "empresas": tipo["M"], "por_estado": est.most_common(32)}
 
+    rfc_firmes = set()
+    r, I = lector("sat_firmes.csv")
+    for x in r:
+        if len(x) >= 4:
+            rfc_firmes.add(x[I["RFC"]].strip())
+    canc_rfc = collections.defaultdict(float); canc_info = {}
+    r, I = lector("sat_cancelados.csv")
+    for x in r:
+        if len(x) < len(I):
+            continue
+        k = x[I["RFC"]].strip(); canc_rfc[k] += num(x[I[mcol]])
+        canc_info[k] = (x[I["RAZÓN SOCIAL"]].strip(), x[I["TIPO PERSONA"]].strip(), x[I["ENTIDAD FEDERATIVA"]].strip().title(),
+                        x[I["FECHA DE CANCELACIÓN"]][-4:])
+    # las 25 empresas (personas morales) con más deuda cancelada; nunca personas físicas
+    top_emp = sorted(((k, v) for k, v in canc_rfc.items() if canc_info[k][1] == "M"), key=lambda kv: -kv[1])[:25]
+    canc["top_empresas"] = [{"rfc": k, "nombre": canc_info[k][0], "estado": canc_info[k][2], "anio": canc_info[k][3],
+                             "millones": round(v / 1e6, 1)} for k, v in top_emp]
+    # curva de concentración: qué parte del monto suma el k% de casos más grandes
+    curva = []
+    for k in (0.1, 0.5, 1, 2, 5, 10, 20, 50, 100):
+        n_ = max(1, round(len(montos) * k / 100))
+        curva.append({"pct_casos": k, "pct_monto": round(sum(montos[:n_]) / total * 100, 1)})
+    canc["curva"] = curva
+
     rows = [x for x in csv.reader(abrir("sat_69b.csv")) if len(x) > 3 and x[0].strip().isdigit()]
     efos = collections.Counter(x[3].strip() for x in rows)
-    return {"cancelados": canc, "firmes": firmes, "efos": dict(efos), "efos_total": len(rows)}
+    ESTADOS = ["Presunto", "Definitivo", "Desvirtuado", "Sentencia Favorable"]
+
+    def fecha(s):
+        m = re.match(r"(\d{2})/(\d{2})/(\d{4})", (s or "").strip())
+        return f"{m.group(3)}-{m.group(2)}-{m.group(1)}" if m else ""
+
+    lista = []; por_anio = collections.defaultdict(lambda: [0, 0, 0, 0]); tipo = collections.Counter()
+    edades = []; cruce = {"def_con_deuda_firme": 0, "def_con_cancelacion": 0, "def_cancelado_millones": 0.0}
+    for x in rows:
+        rfc = x[1].strip(); st = x[3].strip()
+        si = ESTADOS.index(st) if st in ESTADOS else 0
+        fp, fd = fecha(x[5]), fecha(x[13])
+        moral = len(rfc) == 12
+        tipo["M" if moral else "F"] += 1
+        if fp:
+            por_anio[fp[:4]][si] += 1
+        firme = rfc in rfc_firmes; cm = round(canc_rfc.get(rfc, 0) / 1e6, 2)
+        if st == "Definitivo":
+            cruce["def_con_deuda_firme"] += firme; cruce["def_con_cancelacion"] += rfc in canc_rfc
+            cruce["def_cancelado_millones"] += canc_rfc.get(rfc, 0) / 1e6
+        # edad de la empresa al ser señalada: el RFC de una persona moral lleva su fecha de constitución (AAMMDD)
+        if moral and fp and re.fullmatch(r"\d{6}", rfc[3:9]):
+            yy, mm_, dd = int(rfc[3:5]), int(rfc[5:7]), int(rfc[7:9])
+            if 1 <= mm_ <= 12 and 1 <= dd <= 31:
+                anio = 2000 + yy if yy <= int(fp[2:4]) else 1900 + yy
+                ed = int(fp[:4]) - anio + (int(fp[5:7]) - mm_) / 12
+                if 0 <= ed < 80:
+                    edades.append(ed)
+        lista.append([rfc, re.sub(r"\s+", " ", x[2]).strip(), si, fp, fd, int(firme), cm])
+    edades.sort()
+    bins = [(0, 1), (1, 2), (2, 3), (3, 5), (5, 10), (10, 20), (20, 80)]
+    cruce["def_cancelado_millones"] = round(cruce["def_cancelado_millones"], 1)
+    guardar("efos.json", {"campos": ["rfc", "nombre", "estado", "presunto", "definitivo", "deuda_firme", "cancelado_mdp"],
+                          "estados": ESTADOS, "filas": lista})
+    efos_det = {"por_anio": [{"k": k, "v": v} for k, v in sorted(por_anio.items())],
+                "tipo": {"empresas": tipo["M"], "personas": tipo["F"]},
+                "edad_mediana": round(edades[len(edades) // 2], 1) if edades else None,
+                "edades": [{"k": f"{a}–{b} años" if b < 80 else f"{a} o más", "n": sum(1 for e in edades if a <= e < b)} for a, b in bins],
+                "cruce": cruce, "estados": ESTADOS}
+    return {"cancelados": canc, "firmes": firmes, "efos": dict(efos), "efos_total": len(rows), "efos_det": efos_det}
 
 
 def main():

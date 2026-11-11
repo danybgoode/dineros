@@ -16,13 +16,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="fuentes">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes" aria-current="page">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
 <section class="head">
@@ -38,16 +39,19 @@
   <p><b>Aprobado contra ejercido.</b> Viene de la Cuenta Pública 2025: columnas «original bruto» y «ejercido bruto». Las sumas por ramo son brutas, así que incluyen transferencias entre dependencias.</p>
   <p><b>Avance 2026.</b> Compara lo pagado con lo aprobado calendarizado hasta septiembre (reporte trimestral de avance del gasto).</p>
   <p><b>Estados.</b> Suma el gasto ejercido de los ramos 28 y 33 clasificado en cada estado y lo divide entre la población proyectada por CONAPO para 2025.</p>
-  <p><b>SAT.</b> Solo publicamos totales y conteos. No mostramos nombres ni RFC de personas.</p>
+  <p><b>SAT.</b> Las tres listas (69-B, créditos firmes y cancelados) las publica el SAT por mandato de los artículos 69 y 69-B del Código Fiscal. El buscador de la lista 69-B reproduce íntegra esa lista, que existe precisamente para que cualquiera pueda consultar a sus proveedores. De las deudas canceladas solo mostramos con nombre a las 25 empresas (personas morales) con los montos más altos. Nunca publicamos nombres de personas físicas con deudas. Los cruces entre listas se hacen por RFC exacto. La edad de una empresa se calcula con la fecha de constitución que trae su RFC.</p>
   <p><b>Limitaciones.</b> Las cifras están en pesos corrientes, sin ajustar por inflación. Un sobreejercicio no es por sí mismo una irregularidad: indica que el gasto cambió respecto a lo que votaron los diputados. Los portales oficiales pueden corregir sus archivos. Si encuentras un error, <a href="https://github.com/danybgoode/dineros/issues">repórtalo en GitHub</a>.</p>
   <p><b>Actualización.</b> Los datos se descargan desde México con el código abierto del repositorio (<code>pipeline/</code>), porque varios portales oficiales bloquean el tráfico extranjero.</p>
 </section>
 
+
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quién no paga · Dineros</title>
+<meta name="description" content="La lista negra del SAT de empresas que venden facturas falsas (artículo 69-B), con buscador, y las deudas fiscales que el SAT canceló: quién, cuánto y dónde.">
+<meta property="og:title" content="Quién no paga · Dineros">
+<meta property="og:description" content="La lista negra del SAT de empresas que venden facturas falsas (artículo 69-B), con buscador, y las deudas fiscales que el SAT canceló: quién, cuánto y dónde.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dineros.battle-for-la-roma.workers.dev/sat/">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://dineros.battle-for-la-roma.workers.dev/sat/">
+<link rel="icon" href="/assets/icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
+</head>
+<body data-page="sat">
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat" aria-current="page"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
+</div></header>
+<main id="contenido" class="wrap">
+<section class="opener">
+  <div class="chap"><b>05</b><span class="eyebrow">SAT · listas públicas del Código Fiscal</span></div>
+  <h1>¿Quién no paga y quién vende facturas falsas?</h1>
+  <p class="lede">El SAT está obligado por ley a publicar a los contribuyentes que venden facturas de operaciones que nunca existieron, a quienes tienen deudas firmes sin pagar y a quienes les canceló deudas. Son listas públicas, pero vienen en archivos difíciles de leer. Aquí las ponemos en claro.</p>
+  <aside class="tldr" aria-label="En 30 segundos">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><span>El SAT tiene <b>14,234 contribuyentes</b> en su lista de «factureros» (artículo 69-B). <b>11,270 ya están confirmados</b>.</span></li>
+      <li><span>La empresa típica de la lista tenía apenas <b>5.3 años de vida</b> cuando el SAT la señaló. Muchas son empresas creadas para eso.</span></li>
+      <li><span>El SAT ha cancelado <b>$467 mil millones</b> en deudas fiscales. <b>1 de cada 100 deudores</b> concentra 90% de ese dinero.</span></li>
+      <li><span><b>1,530 factureros confirmados</b> también tuvieron deudas canceladas, por $65 mil millones en total.</span></li>
+    </ul>
+  </aside>
+</section>
+
+<section class="story" id="factureros">
+  <div class="q">
+    <span class="eyebrow">Factureros · lista 69-B</span>
+    <h2>Cómo funciona el negocio de las facturas falsas</h2>
+    <p class="lede">En México, una factura sirve para pagar menos impuestos: lo que una empresa compra lo puede restar de sus ganancias y recuperar el IVA. Un «facturero» (el SAT les llama <dfn title="Empresas que Facturan Operaciones Simuladas.">EFOS</dfn>) vende facturas de servicios que nunca dio.</p>
+  </div>
+  <div class="panel">
+    <div class="diagram" role="img" aria-label="Diagrama: el facturero vende una factura falsa, la empresa que la compra paga menos impuestos y el erario pierde">
+      <div class="box bad"><span class="ic">1 · El facturero</span><b>Emite una factura por un servicio que no existió</b><span>Por ejemplo, «asesoría» por $1 millón. Cobra una comisión pequeña y desaparece.</span></div>
+      <div class="ar">vende</div>
+      <div class="box"><span class="ic">2 · La empresa que compra</span><b>Usa la factura para pagar menos impuestos</b><span>Resta ese $1 millón de sus ganancias y recupera el IVA. Paga mucho menos ISR e IVA.</span></div>
+      <div class="ar">resultado</div>
+      <div class="box loss"><span class="ic">3 · Todos perdemos</span><b>El erario deja de cobrar</b><span>Ese dinero ya no llega a escuelas, hospitales ni pensiones. Lo pagamos los que sí cumplimos.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="buscador">
+  <div class="q">
+    <span class="eyebrow">Buscador · 14,234 registros</span>
+    <h2>¿Tu proveedor está en la lista negra?</h2>
+    <p class="lede">Si le compras a una empresa de la lista definitiva, el SAT puede desconocer tus facturas. Busca por nombre o RFC.</p>
+  </div>
+  <div class="panel search">
+    <div class="box"><input id="q" type="search" placeholder="Nombre o RFC, por ejemplo «transportes» o «AAA0808»" autocomplete="off" aria-describedby="res-info"></div>
+    <div class="qs"><span>Prueba:</span><button data-q="consultores">consultores</button><button data-q="outsourcing">outsourcing</button><button data-q="construcciones">construcciones</button><button data-q="comercializadora">comercializadora</button></div>
+    <p id="res-info" class="note" aria-live="polite">Escribe al menos 3 letras de un nombre o de un RFC.</p>
+    <div id="res" class="results"></div>
+    <p class="note">Datos del SAT al 31 de diciembre de 2025. Estar «presunto» <b>no</b> es una condena: el contribuyente tiene derecho a defenderse. «Desvirtuado» y «sentencia favorable» significan que el SAT o un tribunal le dieron la razón. Para trámites, consulta siempre <a href="https://www.gob.mx/sat/acciones-y-programas/notificacion-a-contribuyentes-con-operaciones-presuntamente-inexistentes-y-listados-definitivos-333336" rel="noopener" target="_blank">la lista oficial del SAT</a>.</p>
+  </div>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Qué pasó con cada uno</span>
+    <h2>8 de cada 10 señalados quedaron confirmados</h2>
+    <p class="lede">El proceso es así: el SAT publica a un contribuyente como <b>presunto</b>. Este tiene unas semanas para demostrar que sus operaciones eran reales. Si no lo logra, pasa a <b>definitivo</b>. Pocos se salvan.</p>
+  </div>
+  <div class="panel" id="flujo"><p class="loading">Cargando…</p></div>
+</section>
+
+<section class="story">
+  <div class="grid2">
+    <div class="stack">
+      <div class="q" style="display:grid;gap:8px"><span class="eyebrow">Por año en que fueron señalados</span><h3 style="font-size:1.4rem">El auge fue de 2016 a 2019</h3><p class="note">En 2025 el SAT volvió a señalar a más de mil, que todavía están en proceso.</p></div>
+      <div class="panel"><div id="efos-anio"><p class="loading">Cargando…</p></div>
+        <div class="legend"><span><i class="st1"></i>Definitivo</span><span><i class="st3"></i>Sentencia favorable</span><span><i class="st2"></i>Desvirtuado</span><span><i class="st0"></i>Presunto</span></div></div>
+    </div>
+    <div class="stack">
+      <div class="q" style="display:grid;gap:8px"><span class="eyebrow">Edad de la empresa al ser señalada</span><h3 style="font-size:1.4rem">Empresas de vida corta</h3><p class="note">La edad sale de la fecha de constitución que trae el RFC. La mitad tenía menos de 5.3 años.</p></div>
+      <div class="panel"><div id="edades"><p class="loading">Cargando…</p></div><p class="note">Años de vida · solo empresas (personas morales)</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Cruce de listas</span>
+    <h2>Cuando las listas se juntan</h2>
+    <p class="lede">Al cruzar los RFC de las tres listas del SAT aparecen los mismos nombres: empresas confirmadas como factureras a las que, además, se les perdonó o no se les pudo cobrar una deuda.</p>
+  </div>
+  <div class="kpis" id="cruce"><p class="loading">Cargando…</p></div>
+</section>
+
+<section class="story" id="cancelados">
+  <div class="q">
+    <span class="eyebrow">Deudas canceladas · artículo 146-A del Código Fiscal</span>
+    <h2>$467 mil millones que el SAT dejó de cobrar</h2>
+    <p class="lede">El SAT cancela una deuda cuando el deudor no tiene con qué pagar (<dfn title="El deudor no tiene bienes con qué pagar.">insolvencia</dfn>) o cuando cobrarla costaría más que la deuda (<dfn title="Cobrar costaría más que la deuda.">incosteabilidad</dfn>). Son 176,687 casos, pero el dinero está muy concentrado.</p>
+  </div>
+  <div class="panel" id="concentra"><p class="loading">Cargando…</p></div>
+  <div class="grid2">
+    <div class="panel"><h3>Monto cancelado por año</h3><div id="canc-anio"><p class="loading">Cargando…</p></div><p class="note">Miles de millones de pesos. Casi todo se canceló de 2015 a 2019. Desde 2020 se cancelan sobre todo deudas pequeñas.</p></div>
+    <div class="panel"><h3>¿Dónde estaban los deudores?</h3><div id="canc-mapa"><p class="loading">Cargando…</p></div></div>
+  </div>
+  <div class="explain">
+    <div class="ojo"><b>Ojo</b><p>Cancelar no es perdonar: la ley dice que el deudor sigue obligado a pagar y el SAT puede volver a cobrar si encuentra bienes. Las listas no dicen cuánto se recuperó después.</p></div>
+  </div>
+  <details class="more"><summary>Ver las 25 empresas con más deuda cancelada</summary>
+    <div id="top-emp"></div>
+    <p class="note">Solo mostramos empresas (personas morales), nunca personas físicas. Millones de pesos sumando todas sus cancelaciones.</p>
+  </details>
+</section>
+
+<section class="story" id="firmes">
+  <div class="q">
+    <span class="eyebrow">Deudas firmes · artículo 69 del Código Fiscal</span>
+    <h2>243,791 contribuyentes deben y ya no pueden alegar</h2>
+    <p class="lede">Una deuda <dfn title="Ya no se puede impugnar: el plazo pasó o un tribunal la confirmó.">firme</dfn> es una que ya no se puede impugnar. El SAT publica a quienes la tienen. Son 181,797 personas y 61,994 empresas. En el mapa, cuántos hay por cada 100 mil habitantes.</p>
+  </div>
+  <div class="panel"><div id="firmes-mapa"><p class="loading">Cargando…</p></div></div>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Lo que sigue</span>
+    <h2>Próximamente: ¿el gobierno les compra?</h2>
+    <p class="lede">El siguiente paso es cruzar esta lista con los contratos públicos de ComprasMX para ver si alguna dependencia le pagó a un facturero confirmado. Si tienes datos o quieres ayudar, <a href="https://github.com/danybgoode/dineros/issues">escríbenos en GitHub</a>.</p>
+  </div>
+</section>
+
+<a class="next" href="/2027/"><span><i>Capítulo 06 · 2027</i><b>¿Qué propone el gobierno para 2027?</b></span><span class="arr" aria-hidden="true">→</span></a>
+</main>
+<div id="tip" role="tooltip"></div>
+<footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
+  <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
+  <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
+</div></footer>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
+</body>
+</html>

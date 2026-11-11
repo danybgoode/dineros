@@ -16,13 +16,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="glosario">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario" aria-current="page">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
 <section class="head">
@@ -55,16 +56,24 @@
   <div id="adefas"><dt>ADEFAS</dt><dd>Adeudos de ejercicios fiscales anteriores: compromisos de un año que se pagan al siguiente.</dd></div>
   <div id="firmes"><dt>Crédito fiscal firme</dt><dd>Una deuda con el SAT que ya no se puede impugnar y no se ha pagado.</dd></div>
   <div id="cancelado"><dt>Crédito fiscal cancelado</dt><dd>Una deuda con el SAT que se da por perdida porque cobrarla cuesta más que la deuda (incosteabilidad) o porque el deudor no tiene con qué pagar (insolvencia). Cancelarla no la perdona: se puede volver a cobrar si aparecen bienes.</dd></div>
-  <div id="efos"><dt>EFOS (lista 69-B)</dt><dd>Empresas que el SAT determinó que emitían facturas por operaciones que no existieron, las llamadas «factureras».</dd></div>
+  <div id="efos"><dt>EFOS, «factureros» (lista 69-B)</dt><dd>Empresas que Facturan Operaciones Simuladas: contribuyentes que venden facturas de operaciones que no existieron, para que otros paguen menos impuestos. El SAT los publica por el artículo 69-B del Código Fiscal. <a href="/sat/#buscador">Busca en la lista</a>.<small>Quien usa esas facturas es una EDOS (Empresa que Deduce Operaciones Simuladas) y puede perder sus deducciones.</small></dd></div>
+  <div id="presunto"><dt>Presunto (69-B)</dt><dd>El primer paso: el SAT sospecha que un contribuyente factura operaciones falsas y lo publica. Tiene derecho a defenderse y aportar pruebas.</dd></div>
+  <div id="definitivo"><dt>Definitivo (69-B)</dt><dd>El contribuyente no logró demostrar que sus operaciones eran reales. Sus facturas dejan de tener efecto fiscal.</dd></div>
+  <div id="desvirtuado"><dt>Desvirtuado y sentencia favorable</dt><dd>El contribuyente demostró ante el SAT que sus operaciones eran reales (desvirtuado) o un tribunal le dio la razón (sentencia favorable). Sale limpio.</dd></div>
+  <div id="rfc"><dt>RFC</dt><dd>Registro Federal de Contribuyentes: la clave con la que el SAT identifica a cada persona o empresa. El de una empresa tiene 12 caracteres e incluye su fecha de constitución; el de una persona física tiene 13.</dd></div>
+  <div id="persona-moral"><dt>Persona moral y persona física</dt><dd>Una <b>persona moral</b> es una empresa, asociación o sociedad. Una <b>persona física</b> es un individuo.</dd></div>
   <div id="nominal"><dt>Pesos corrientes (nominales)</dt><dd>Cifras tal como se reportaron cada año, sin quitar la inflación. Comparar 2015 contra 2025 en pesos corrientes exagera el crecimiento.</dd></div>
 </dl>
 </section>
 
+<a class="next" href="/fuentes/"><span><i>Sigue · Fuentes</i><b>De dónde sale cada cifra</b></span><span class="arr" aria-hidden="true">→</span></a>
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>

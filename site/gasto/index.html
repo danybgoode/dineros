@@ -16,75 +16,104 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="gasto">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto" aria-current="page"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
-<section class="head">
-  <span class="eyebrow">Gasto · Cuenta Pública 2025</span>
-  <h1>Lo aprobado no es lo que se gasta</h1>
-  <p class="lede">Los diputados aprueban un presupuesto para cada dependencia. Durante el año Hacienda puede moverlo, y al final la <dfn title="El informe oficial de cierre: cuánto se gastó realmente en el año.">Cuenta Pública</dfn> dice cuánto se gastó de verdad. La diferencia es el <dfn title="Gastar menos de lo aprobado.">subejercicio</dfn> o el <dfn title="Gastar más de lo aprobado.">sobreejercicio</dfn>.</p>
+<section class="opener">
+  <div class="chap"><b>03</b><span class="eyebrow">Gasto · Cuenta Pública 2025</span></div>
+  <h1>Lo que aprueban los diputados no es lo que se gasta.</h1>
+  <p class="lede">La Cámara de Diputados aprueba cuánto puede gastar cada dependencia. Durante el año, Hacienda puede mover ese dinero, y al final la <dfn title="El informe oficial de cierre: cuánto se gastó realmente en el año.">Cuenta Pública</dfn> dice cuánto se gastó de verdad. Gastar menos se llama <dfn title="Gastar menos de lo aprobado.">subejercicio</dfn> y gastar más, <dfn title="Gastar más de lo aprobado.">sobreejercicio</dfn>.</p>
+  <aside class="tldr" aria-label="En 30 segundos">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><span>En 2025 se ejerció <b>4.4% más</b> de lo aprobado: $11.27 billones contra $10.80 billones, sumando todas las dependencias.</span></li>
+      <li><span><b>Energía gastó casi el triple</b> de lo aprobado ($138 → $400 mil millones), casi todo para apoyar al sector petrolero.</span></li>
+      <li><span><b>Salud, Infraestructura y Desarrollo Agrario</b> gastaron menos de lo que se les dio.</span></li>
+      <li><span>En 2026, a septiembre, las dependencias han pagado <b>94.6%</b> de lo programado. Energía, Desarrollo Agrario e Infraestructura van poco más de la mitad.</span></li>
+    </ul>
+  </aside>
 </section>
 
-<section>
-  <div class="head">
-    <span class="eyebrow">Por dependencia (ramo) · 2025</span>
-    <h2>Energía gastó casi el triple de lo aprobado, y Desarrollo Agrario un tercio menos</h2>
-    <p class="lede">A Energía se le aprobaron $138 mil millones y ejerció $400 mil millones. Casi todo pasó por un solo programa de política de hidrocarburos, con el que se canalizan recursos al sector petrolero. Hacienda ejerció cinco veces lo aprobado. Salud, Infraestructura y Desarrollo Agrario gastaron menos de lo que se les dio.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">El mapa del gasto · 2025</span>
+    <h2>Cada cuadro es una dependencia: su tamaño es lo que gastó y su color, cuánto se desvió</h2>
+    <p class="lede">Los cuadros más grandes son el IMSS, las pensiones y lo que se envía a estados y municipios. Naranja significa que gastó más de lo aprobado y azul, menos. Gris, que gastó casi lo aprobado.</p>
   </div>
   <div class="panel">
-    <div class="filters" id="modo" role="group" aria-label="Ver en"><button data-m="pct" aria-pressed="true">En porcentaje</button><button data-m="abs" aria-pressed="false">En miles de millones</button></div>
-    <div id="ramos"><p class="loading">Cargando…</p></div>
-    <div class="legend"><span><i style="background:var(--up)"></i>Gastó más de lo aprobado</span><span><i style="background:var(--down)"></i>Gastó menos</span><span>Solo ramos de más de $5 mil millones</span></div>
+    <div id="treemap"><p class="loading">Cargando…</p></div>
+    <div class="scale"><span>Gastó menos</span><span class="grad" style="background:linear-gradient(90deg,var(--down),var(--mid),var(--up))"></span><span>Gastó más (±60% o más)</span></div>
   </div>
-  <p class="note">Estas cifras son «brutas»: incluyen dinero que una dependencia transfiere a otra (por ejemplo, Hacienda a Pemex o Seguridad Social al IMSS). Por eso su suma ($11.27 billones) es mayor que el gasto neto total ($9.60 billones).</p>
+  <p class="note">Las cifras de dependencias son «brutas»: incluyen dinero que una le transfiere a otra (por ejemplo, Hacienda a Pemex). Por eso su suma ($11.27 billones) es mayor que el gasto neto total ($9.60 billones).</p>
 </section>
 
-<section>
-  <div class="head">
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Las que más se movieron · 2025</span>
+    <h2>Energía, Pemex y Hacienda recibieron mucho más; la deuda y las provisiones, menos</h2>
+    <p class="lede">El anillo es lo aprobado y el punto, lo que se gastó. Entre más larga la línea, más se alejó del plan. Están ordenadas por la diferencia en pesos.</p>
+  </div>
+  <div class="panel">
+    <div id="ramos"><p class="loading">Cargando…</p></div>
+    <div class="legend"><span><i class="ring"></i>Aprobado</span><span><i class="dot" style="background:var(--up)"></i>Ejercido: más de lo aprobado</span><span><i class="dot" style="background:var(--down)"></i>Ejercido: menos</span></div>
+  </div>
+  <div class="explain">
+    <div><b>Qué significa</b><p>A Energía se le aprobaron $138 mil millones y ejerció $400 mil millones. Casi todo pasó por un programa de «política energética en hidrocarburos», el canal para enviar recursos al sector petrolero.</p></div>
+    <div class="ojo"><b>Ojo</b><p>Un sobreejercicio no es por sí mismo ilegal: la ley permite a Hacienda mover recursos. Lo que muestra es que el gasto real se alejó de lo que votaron los diputados.</p></div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="q">
     <span class="eyebrow">Por programa · 2025 · miles de millones de pesos</span>
     <h2>Los programas que más se alejaron de lo aprobado</h2>
   </div>
-  <div class="stack" style="display:grid;gap:16px">
+  <div class="grid2">
     <div class="panel"><h3>Recibieron menos de lo aprobado</h3><p class="note">Incluye el programa de salud y medicamentos gratuitos para quienes no tienen seguridad social, el FONDEN y Vivienda Social.</p><div id="sub"><p class="loading">Cargando…</p></div></div>
     <div class="panel"><h3>Recibieron más de lo aprobado</h3><p class="note">Encabezan la lista la política de hidrocarburos, la inversión de Pemex y los proyectos ferroviarios.</p><div id="sobre"><p class="loading">Cargando…</p></div></div>
   </div>
   <div class="panel">
     <h3>Las «bolsas» que se vaciaron por completo</h3>
-    <p class="note">Algunos renglones del presupuesto son <dfn title="Dinero que se aprueba sin un destino final, para repartirse después entre otros programas.">provisiones</dfn>: dinero que se aprueba sin un programa concreto y que Hacienda reparte durante el año. Por ejemplo, la provisión de $90 mil millones para trenes llegó a cero porque se pasó a los proyectos ferroviarios. No es dinero perdido, pero sí es dinero que los diputados no asignaron a un programa específico.</p>
+    <p class="note">Algunos renglones del presupuesto son <dfn title="Dinero que se aprueba sin un destino final, para repartirse después entre otros programas.">provisiones</dfn>: dinero aprobado sin un programa concreto, que Hacienda reparte durante el año. Por ejemplo, la provisión de $90 mil millones para trenes llegó a cero porque se pasó a los proyectos ferroviarios. No es dinero perdido, pero sí dinero que los diputados no asignaron a un programa específico.</p>
     <div id="bolsas"></div>
   </div>
 </section>
 
-<section>
-  <div class="head">
+<section class="story">
+  <div class="q">
     <span class="eyebrow">En qué se gasta · 2025</span>
-    <h2>Por tipo de gasto</h2>
-    <p class="lede">La barra es lo ejercido y la rayita es lo aprobado. La obra pública terminó 70% arriba de lo aprobado y los servicios generales 19% arriba.</p>
+    <h2>La obra pública terminó 70% arriba de lo aprobado</h2>
+    <p class="lede">La barra es lo ejercido y la rayita rosa es lo aprobado. Los servicios generales (rentas, asesorías, viáticos, luz) terminaron 19% arriba.</p>
   </div>
   <div class="panel" id="cap"><p class="loading">Cargando…</p></div>
 </section>
 
-<section>
-  <div class="head">
+<section class="story">
+  <div class="q">
     <span class="eyebrow">2026 · enero a septiembre</span>
     <h2>Este año, ¿quién va atrasado?</h2>
-    <p class="lede">Comparamos lo que cada dependencia ya pagó con lo que tenía calendarizado para el periodo. En total va en <b id="avance-total">…</b>. Energía, Desarrollo Agrario e Infraestructura apenas llevan la mitad de lo programado.</p>
+    <p class="lede">Comparamos lo que cada dependencia ya pagó con lo que tenía programado para estos meses. En total va en <b id="avance-total">…</b>. Las que van más atrasadas aparecen primero.</p>
   </div>
   <div class="panel"><div id="avance"><p class="loading">Cargando…</p></div>
-    <div class="legend"><span>100% = va al día</span><span><i style="background:var(--down)"></i>Atrasado</span><span><i style="background:var(--up)"></i>Adelantado</span></div></div>
+    <div class="legend"><span><i class="tick" style="background:var(--ink)"></i>100% = al día</span><span><i style="background:var(--up)"></i>Atrasado (menos de 90%)</span><span><i style="background:var(--jade)"></i>Al día o adelantado</span></div></div>
+  <div class="explain"><div class="ojo"><b>Ojo</b><p>Ir atrasado puede significar obras detenidas o pagos pendientes, pero también ahorros. Se sabrá con la Cuenta Pública 2026, en abril de 2027.</p></div></div>
 </section>
 
+<a class="next" href="/estados/"><span><i>Capítulo 04 · Estados</i><b>¿Cuánto llega a tu estado?</b></span><span class="arr" aria-hidden="true">→</span></a>
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>

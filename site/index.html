@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Dineros · El dinero público de México, en claro</title>
-<meta name="description" content="Cuánto recaudó y cuánto gastó el gobierno de México, en qué, y dónde se desvió de lo aprobado. Con datos oficiales y en lenguaje claro.">
+<meta name="description" content="Cuánto recaudó y cuánto gastó el gobierno de México, en qué, dónde se desvió de lo aprobado y quién no paga. Con datos oficiales, gráficas y lenguaje claro.">
 <meta property="og:title" content="Dineros · El dinero público de México, en claro">
-<meta property="og:description" content="Cuánto recaudó y cuánto gastó el gobierno de México, en qué, y dónde se desvió de lo aprobado. Con datos oficiales y en lenguaje claro.">
+<meta property="og:description" content="Cuánto recaudó y cuánto gastó el gobierno de México, en qué, dónde se desvió de lo aprobado y quién no paga. Con datos oficiales, gráficas y lenguaje claro.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dineros.battle-for-la-roma.workers.dev/">
 <meta property="og:locale" content="es_MX">
@@ -16,68 +16,113 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="inicio">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio" aria-current="page"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
-<section class="hero">
-  <div class="head">
-    <span class="eyebrow">Sector público federal · 2025, último año cerrado</span>
-    <h1>En 2025 el gobierno gastó más de lo que recaudó, y la diferencia la pidió prestada.</h1>
-    <p class="lede">Lo que pagamos en impuestos, lo que se cobró por petróleo y servicios, y cómo se gastó. Todo sale de los reportes oficiales de Hacienda y se explica sin tecnicismos.</p>
+<section class="opener">
+  <div class="chap"><b>01</b><span class="eyebrow">Resumen · 2025, el último año cerrado</span></div>
+  <h1>En 2025 el gobierno gastó <span class="hl">$1.37 billones</span> más de lo que le entró.</h1>
+  <p class="lede">Ese faltante se pidió prestado, y la deuda se paga después con intereses. Aquí está de dónde salió el dinero público de México y a dónde se fue, con datos oficiales de Hacienda y del SAT, explicado sin tecnicismos.</p>
+  <div class="panel">
+    <div class="panel-h"><h3>Lo que entró y lo que salió en 2025</h3><span class="eyebrow">Sector público federal</span></div>
+    <div id="balance"><p class="loading">Cargando…</p></div>
+    <p id="pp"></p>
   </div>
-  <div class="bignums">
-    <div class="bignum in"><span class="eyebrow">Entró</span><span class="v" id="n-in">…</span><span class="pp" id="p-in"></span><span class="note">Impuestos, petróleo, cuotas del IMSS, ventas de CFE y otros. No incluye deuda.</span></div>
-    <div class="bignum out"><span class="eyebrow">Salió</span><span class="v" id="n-out">…</span><span class="pp" id="p-out"></span><span class="note">Gasto neto pagado: sueldos, programas, obras, pensiones, intereses y lo que se envía a los estados.</span></div>
-    <div class="bignum debt"><span class="eyebrow">Faltó (déficit)</span><span class="v" id="n-debt">…</span><span class="pp" id="p-debt"></span><span class="note">Se cubrió con deuda. Esa deuda se paga después, con intereses.</span></div>
+  <aside class="tldr" aria-label="En 30 segundos">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><span>Entraron <b>$8.23 billones</b> (impuestos, petróleo, cuotas del IMSS, luz de CFE) y salieron <b>$9.60 billones</b>. La diferencia se cubrió con deuda.</span></li>
+      <li><span>Solo en <b>intereses de la deuda</b> se fueron $1.31 billones: más que todo lo que se gastó en obras e inversión.</span></li>
+      <li><span>En 2026 la recaudación va <b>más lenta</b> que el año pasado: a septiembre lleva 72% de la meta, contra 78% a la misma altura de 2025.</span></li>
+      <li><span>El SAT tiene <b>11,270 «factureros» confirmados</b>, es decir, vendedores de facturas falsas. A 1,530 de ellos, además, les canceló deudas.</span></li>
+    </ul>
+  </aside>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Tu peso</span>
+    <h2>Si pagas impuestos, ¿a dónde se va tu dinero?</h2>
+    <p class="lede">Escribe cuánto pagaste de impuestos este año (ISR de tu nómina, IVA de tus compras, o una cantidad cualquiera) y mira cómo se reparte según lo que el gobierno gastó en 2025.</p>
+  </div>
+  <div class="panel calc">
+    <label for="monto">Pagué de impuestos
+      <span class="money"><span>$</span><input id="monto" inputmode="numeric" autocomplete="off" value="10000" aria-describedby="tu-intereses"></span>
+    </label>
+    <div class="filters" id="presets" role="group" aria-label="Montos de ejemplo"><button data-v="1000">$1,000</button><button data-v="10000">$10,000</button><button data-v="50000">$50,000</button><button data-v="250000">$250,000</button></div>
+    <div id="tu-peso"><p class="loading">Cargando…</p></div>
+    <p id="tu-intereses" class="lede"></p>
+  </div>
+  <div class="explain">
+    <div><b>Qué significa</b><p>Cada cuadrito es 1 de cada 100 pesos que gastó el sector público federal. Pasa el cursor o toca un color para ver qué incluye.</p></div>
+    <div class="ojo"><b>Ojo</b><p>Tus impuestos no van etiquetados a un destino. Todo entra a una sola caja, así que esto es el reparto promedio, no un recibo. Además, una parte del gasto se paga con deuda, no con impuestos.</p></div>
   </div>
 </section>
 
-<section class="grid2">
-  <div class="panel" id="cien-in"><p class="loading">Cargando…</p></div>
-  <div class="panel" id="cien-out"><p class="loading">Cargando…</p></div>
-</section>
-
-<section>
-  <div class="head">
-    <span class="eyebrow">Este año</span>
-    <h2>¿Cómo va 2026?</h2>
-  </div>
-  <div class="callout" id="pulso"><p class="loading">Cargando…</p></div>
-  <div class="callout" id="dato-deuda"></div>
-</section>
-
-<section>
-  <div class="head">
+<section class="story">
+  <div class="q">
     <span class="eyebrow">2015–2025 · billones de pesos corrientes</span>
-    <h2>Desde 2015, cada año se gasta más de lo que entra</h2>
-    <p class="lede">La franja rosa es el déficit de cada año. En 2024 fue el más grande de la década.</p>
+    <h2>Diez años seguidos gastando más de lo que entra</h2>
+    <p class="lede">La franja rosa entre las dos líneas es el déficit de cada año, lo que se pidió prestado. En 2024 fue el más grande de la década: $1.67 billones.</p>
   </div>
-  <div class="panel" id="tendencia"><p class="loading">Cargando…</p></div>
+  <div class="panel"><div id="tendencia"><p class="loading">Cargando…</p></div></div>
 </section>
 
-<section>
-  <div class="head"><h2>Explora</h2></div>
-  <div class="cards">
-    <a class="card" href="/ingresos/"><h3>Ingresos</h3><span>Lo que se esperaba recaudar contra lo que se recaudó, y quién no paga.</span></a>
-    <a class="card" href="/gasto/"><h3>Gasto</h3><span>Lo aprobado contra lo que de verdad se gastó: subejercicio y sobreejercicio por dependencia y programa.</span></a>
-    <a class="card" href="/estados/"><h3>Estados</h3><span>Cuánto dinero federal llega a cada estado por persona.</span></a>
-    <a class="card" href="/2027/"><h3>Presupuesto 2027</h3><span>Lo que el gobierno propone gastar el próximo año contra 2026.</span></a>
-    <a class="card" href="/glosario/"><h3>Glosario</h3><span>Ramo, subejercicio, participaciones… explicado en claro.</span></a>
-    <a class="card" href="/fuentes/"><h3>Fuentes</h3><span>Cada archivo oficial que usamos, con fecha de descarga y huella digital.</span></a>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Qué tanto creció cada gasto · 2015 = 100</span>
+    <h2>Los intereses de la deuda se triplicaron; la inversión en obras no creció</h2>
+    <p class="lede">Si una línea llega a 200, ese gasto se duplicó desde 2015. Los intereses crecieron más rápido que los ingresos, y las pensiones también. La inversión física (carreteras, hospitales, presas) terminó 2025 en el mismo nivel que en 2015.</p>
+  </div>
+  <div class="panel"><div id="crece"><p class="loading">Cargando…</p></div></div>
+  <div class="explain">
+    <div><b>Por qué importa</b><p>Cada peso que se va a intereses o a pensiones ya está comprometido. Queda menos margen para escuelas, hospitales u obras.</p></div>
+    <div class="ojo"><b>Ojo</b><p>Son pesos corrientes. Como los precios subieron en esos diez años, una inversión que no creció en pesos en realidad alcanza para menos.</p></div>
   </div>
 </section>
 
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">2026 · el año en curso</span>
+    <h2>¿Cómo va este año?</h2>
+    <p class="lede">A septiembre ya pasaron tres cuartas partes del año. Lo cobrado va atrás de la meta y más lento que el año pasado. El gasto, en cambio, va casi al ritmo programado.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel" id="g-ing"><p class="loading">Cargando…</p></div>
+    <div class="panel" id="g-gas"><p class="loading">Cargando…</p></div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">La historia completa</span>
+    <h2>Sigue el dinero, capítulo por capítulo</h2>
+  </div>
+  <div class="chapters">
+    <a class="chcard" href="/ingresos/"><i>02 · Ingresos</i><h3>¿De dónde sale el dinero?</h3><span class="k">53 de cada 100</span><span>pesos que entran son ISR o IVA. El petróleo ya solo aporta 15.</span></a>
+    <a class="chcard" href="/gasto/"><i>03 · Gasto</i><h3>¿Se respetó lo aprobado?</h3><span class="k">+189%</span><span>Energía gastó casi el triple de lo que aprobaron los diputados.</span></a>
+    <a class="chcard" href="/estados/"><i>04 · Estados</i><h3>¿Cuánto llega a tu estado?</h3><span class="k">Elige el tuyo</span><span>Dinero federal por habitante, en un mapa de los 32 estados.</span></a>
+    <a class="chcard new" href="/sat/"><i>05 · Quién no paga · nuevo</i><h3>¿Quién vende facturas falsas?</h3><span class="k">14,234</span><span>contribuyentes en la lista negra del SAT. Busca a tu proveedor.</span></a>
+    <a class="chcard" href="/2027/"><i>06 · 2027</i><h3>¿Qué viene?</h3><span class="k">+94%</span><span>sube el INE en la propuesta de presupuesto, por las elecciones.</span></a>
+    <a class="chcard" href="/glosario/"><i>Glosario</i><h3>¿Te perdiste?</h3><span class="k">30 términos</span><span>Ramo, subejercicio, facturero… en lenguaje claro.</span></a>
+  </div>
+</section>
+
+<a class="next" href="/ingresos/"><span><i>Capítulo 02 · Ingresos</i><b>¿De dónde sale el dinero?</b></span><span class="arr" aria-hidden="true">→</span></a>
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>

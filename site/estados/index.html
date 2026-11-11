@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Estados · Dineros</title>
-<meta name="description" content="Cuánto dinero federal recibió cada estado en 2025 por persona: participaciones (Ramo 28) y aportaciones (Ramo 33).">
+<meta name="description" content="Cuánto dinero federal recibió cada estado en 2025 por persona: participaciones (Ramo 28) y aportaciones (Ramo 33), en un mapa de México.">
 <meta property="og:title" content="Estados · Dineros">
-<meta property="og:description" content="Cuánto dinero federal recibió cada estado en 2025 por persona: participaciones (Ramo 28) y aportaciones (Ramo 33).">
+<meta property="og:description" content="Cuánto dinero federal recibió cada estado en 2025 por persona: participaciones (Ramo 28) y aportaciones (Ramo 33), en un mapa de México.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dineros.battle-for-la-roma.workers.dev/estados/">
 <meta property="og:locale" content="es_MX">
@@ -16,40 +16,75 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="estados">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados" aria-current="page"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
-<section class="head">
-  <span class="eyebrow">Estados · 2025</span>
+<section class="opener">
+  <div class="chap"><b>04</b><span class="eyebrow">Estados · 2025</span></div>
   <h1>¿Cuánto dinero federal llega a tu estado?</h1>
-  <p class="lede">La Federación envía dos tipos de dinero a estados y municipios. Las <dfn title="Ramo 28: dinero de libre uso para estados y municipios, repartido con una fórmula.">participaciones</dfn> los gobiernos locales las usan como quieran. Las <dfn title="Ramo 33: dinero etiquetado para educación, salud, seguridad, infraestructura social, etc.">aportaciones</dfn> ya vienen etiquetadas para escuelas, salud, seguridad u obras. En promedio llegaron <b id="nac">…</b> por habitante.</p>
+  <p class="lede">La Federación cobra casi todos los impuestos y luego reparte una parte a estados y municipios. Llega de dos formas. Las <dfn title="Ramo 28: dinero de libre uso para estados y municipios, repartido con una fórmula.">participaciones</dfn> el gobierno local las usa como quiera. Las <dfn title="Ramo 33: dinero etiquetado para educación, salud, seguridad, infraestructura social, etc.">aportaciones</dfn> ya vienen etiquetadas para escuelas, salud, seguridad u obras.</p>
+  <aside class="tldr" aria-label="En 30 segundos">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><span>En 2025 llegaron en promedio <b class="nac">…</b> por habitante a estados y municipios.</span></li>
+      <li><span><b>Campeche, Oaxaca y Guerrero</b> reciben más por persona: las fórmulas favorecen a los estados con más pobreza o con menos habitantes.</span></li>
+      <li><span><b>Puebla, Guanajuato y el Estado de México</b> son los que menos reciben por persona.</span></li>
+    </ul>
+  </aside>
 </section>
 
-<section>
-  <div class="head">
-    <h2>Por persona, de mayor a menor</h2>
-    <p class="lede">La rayita marca el promedio nacional. Campeche, Oaxaca y Guerrero son los que más reciben por persona: las fórmulas de reparto favorecen a los estados con más pobreza o con menos habitantes. Puebla, Guanajuato y el Estado de México reciben menos.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">Tu estado</span>
+    <h2>Busca el tuyo</h2>
+  </div>
+  <div class="panel">
+    <div class="panel-h">
+      <label class="filters" style="align-items:center;gap:10px"><span class="eyebrow">Mi estado</span>
+        <select id="estado" style="font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-height:40px"></select></label>
+      <div class="filters" id="metrica" role="group" aria-label="Qué medir"><button data-m="federalizado_pc" aria-pressed="true">Total</button><button data-m="part_pc" aria-pressed="false">Participaciones</button><button data-m="apor_pc" aria-pressed="false">Aportaciones</button></div>
+    </div>
+    <div id="tu-estado"></div>
+    <div class="mapwrap">
+      <div id="mapa"><p class="loading">Cargando…</p></div>
+      <div class="explain" style="grid-template-columns:minmax(0,1fr)">
+        <div><b>Cómo leer el mapa</b><p>Cada cuadro es un estado, más o menos en su lugar en el mapa. Entre más oscuro, más dinero federal por habitante. Pasa el cursor o toca un cuadro para ver el detalle.</p></div>
+        <div class="ojo"><b>Ojo</b><p>Más dinero por persona no significa que esté mejor gastado. El reparto depende de fórmulas que pesan la población, la pobreza y lo que cada estado recauda.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">De mayor a menor</span>
+    <h2>Por persona, los 32 estados</h2>
+    <p class="lede">La rayita marca el promedio nacional. Las barras oscuras están arriba del promedio.</p>
   </div>
   <div class="panel" id="pc"><p class="loading">Cargando…</p></div>
 </section>
 
-<section>
-  <div class="head"><h2>La tabla completa</h2><p class="note">Toca un encabezado para ordenar. Las cifras están en miles de millones de pesos, salvo «Por persona». La última columna suma todo el gasto federal clasificado en ese estado. En Campeche es enorme porque ahí opera Pemex.</p></div>
+<section class="story">
+  <div class="q"><h2>La tabla completa</h2><p class="note">Toca un encabezado para ordenar. Las cifras están en miles de millones de pesos, salvo «Por persona». La última columna suma todo el gasto federal ubicado en ese estado. En Campeche es enorme porque ahí opera Pemex.</p></div>
   <div id="tabla"><p class="loading">Cargando…</p></div>
   <p class="note">Hay otros <b id="nodist">…</b> del gasto federal que la Cuenta Pública marca como «no distribuible geográficamente», como la deuda y las pensiones. Por eso no aparecen en ningún estado. La población es la proyección de CONAPO para 2025.</p>
 </section>
 
+<a class="next" href="/sat/"><span><i>Capítulo 05 · Quién no paga</i><b>¿Quién no paga y quién vende facturas falsas?</b></span><span class="arr" aria-hidden="true">→</span></a>
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>

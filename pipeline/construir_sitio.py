@@ -3,6 +3,7 @@
 Cada página en site_src/pages/*.html empieza con un comentario JSON:
 <!--{"titulo": "...", "descripcion": "...", "pagina": "inicio", "ruta": "/"}-->
 """
+import hashlib
 import json
 import pathlib
 import re
@@ -13,9 +14,15 @@ SRC = RAIZ / "site_src"
 OUT = RAIZ / "site"
 SITIO = "https://dineros.battle-for-la-roma.workers.dev"
 
-NAV = [("inicio", "/", "Resumen"), ("ingresos", "/ingresos/", "Ingresos"), ("gasto", "/gasto/", "Gasto"),
-       ("estados", "/estados/", "Estados"), ("p2027", "/2027/", "Presupuesto 2027"),
-       ("glosario", "/glosario/", "Glosario"), ("fuentes", "/fuentes/", "Fuentes")]
+# (clave, ruta, nombre corto, número de capítulo, pregunta que responde)
+NAV = [("inicio", "/", "Resumen", "01", "¿Cuánto entra y cuánto sale?"),
+       ("ingresos", "/ingresos/", "Ingresos", "02", "¿De dónde sale el dinero?"),
+       ("gasto", "/gasto/", "Gasto", "03", "¿En qué se gasta y se respetó lo aprobado?"),
+       ("estados", "/estados/", "Estados", "04", "¿Cuánto llega a tu estado?"),
+       ("sat", "/sat/", "Quién no paga", "05", "¿Quién no paga y quién vende facturas falsas?"),
+       ("p2027", "/2027/", "2027", "06", "¿Qué propone el gobierno para 2027?"),
+       ("glosario", "/glosario/", "Glosario", "", "Las palabras del presupuesto, en claro"),
+       ("fuentes", "/fuentes/", "Fuentes", "", "De dónde sale cada cifra")]
 
 LAYOUT = """<!doctype html>
 <html lang="es-MX">
@@ -38,15 +45,19 @@ LAYOUT = """<!doctype html>
 <link rel="stylesheet" href="/assets/estilo.css?v={v}">
 </head>
 <body data-page="{pagina}">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones">{nav}</nav>
+  <nav class="tabs" aria-label="Capítulos">{nav}</nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
 {cuerpo}
+{siguiente}
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones">{nav_pie}</nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
@@ -66,16 +77,26 @@ def main():
     for f in ("_headers", "robots.txt"):
         if (SRC / f).exists():
             shutil.copy(SRC / f, OUT / f)
-    v = str(abs(hash((SRC / "assets" / "app.js").read_text() + (SRC / "assets" / "estilo.css").read_text())) % 10**8)
+    v = hashlib.sha256(((SRC / "assets" / "app.js").read_text() + (SRC / "assets" / "estilo.css").read_text()).encode()).hexdigest()[:10]
     rutas = []
     for p in sorted((SRC / "pages").glob("*.html")):
         txt = p.read_text()
         m = re.match(r"\s*<!--(\{.*?\})-->\s*", txt, re.S)
         meta = json.loads(m.group(1))
         cuerpo = txt[m.end():]
-        nav = "".join(f'<a href="{r}" data-p="{k}">{n}</a>' for k, r, n in NAV)
+        nav = "".join(f'<a href="{r}" data-p="{k}"' + (' aria-current="page"' if k == meta["pagina"] else "")
+                      + f'>{f"<i>{c}</i>" if c else ""}{n}</a>' for k, r, n, c, _ in NAV)
+        nav_pie = "".join(f'<a href="{r}">{(c + " · ") if c else ""}{n}</a>' for k, r, n, c, _ in NAV)
+        claves = [x[0] for x in NAV]
+        i = claves.index(meta["pagina"]) if meta["pagina"] in claves else -1
+        siguiente = ""
+        if 0 <= i < len(NAV) - 1:
+            k, r, n, c, q = NAV[i + 1]
+            siguiente = (f'<a class="next" href="{r}"><span><i>{"Capítulo " + c if c else "Sigue"} · {n}</i>'
+                         f'<b>{q}</b></span><span class="arr" aria-hidden="true">→</span></a>')
         html = LAYOUT.format(titulo=meta["titulo"], descripcion=meta["descripcion"], pagina=meta["pagina"],
-                             ruta=meta["ruta"], sitio=SITIO, nav=nav, cuerpo=cuerpo, v=v)
+                             ruta=meta["ruta"], sitio=SITIO, nav=nav, nav_pie=nav_pie, cuerpo=cuerpo, v=v,
+                             siguiente=siguiente)
         dest = OUT / meta["ruta"].strip("/") / "index.html" if meta["ruta"] != "/" else OUT / "index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(html)

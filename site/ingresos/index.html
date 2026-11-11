@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Ingresos · Dineros</title>
-<meta name="description" content="Lo que el gobierno esperaba recaudar contra lo que recaudó en 2025 y en 2026, impuesto por impuesto, y cuánto dejó de cobrar el SAT.">
+<meta name="description" content="De dónde sale el dinero del gobierno de México: cuánto se esperaba recaudar contra lo que se recaudó en 2025 y cómo va 2026, impuesto por impuesto.">
 <meta property="og:title" content="Ingresos · Dineros">
-<meta property="og:description" content="Lo que el gobierno esperaba recaudar contra lo que recaudó en 2025 y en 2026, impuesto por impuesto, y cuánto dejó de cobrar el SAT.">
+<meta property="og:description" content="De dónde sale el dinero del gobierno de México: cuánto se esperaba recaudar contra lo que se recaudó en 2025 y cómo va 2026, impuesto por impuesto.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dineros.battle-for-la-roma.workers.dev/ingresos/">
 <meta property="og:locale" content="es_MX">
@@ -16,75 +16,88 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/estilo.css?v=62362538">
+<link rel="stylesheet" href="/assets/estilo.css?v=ae3dc57b0a">
 </head>
 <body data-page="ingresos">
-<a class="tag" href="#contenido" style="position:absolute;left:-999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><span class="mark">$</span><b>Dineros</b></a>
-  <nav class="tabs" aria-label="Secciones"><a href="/" data-p="inicio">Resumen</a><a href="/ingresos/" data-p="ingresos">Ingresos</a><a href="/gasto/" data-p="gasto">Gasto</a><a href="/estados/" data-p="estados">Estados</a><a href="/2027/" data-p="p2027">Presupuesto 2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <nav class="tabs" aria-label="Capítulos"><a href="/" data-p="inicio"><i>01</i>Resumen</a><a href="/ingresos/" data-p="ingresos" aria-current="page"><i>02</i>Ingresos</a><a href="/gasto/" data-p="gasto"><i>03</i>Gasto</a><a href="/estados/" data-p="estados"><i>04</i>Estados</a><a href="/sat/" data-p="sat"><i>05</i>Quién no paga</a><a href="/2027/" data-p="p2027"><i>06</i>2027</a><a href="/glosario/" data-p="glosario">Glosario</a><a href="/fuentes/" data-p="fuentes">Fuentes</a></nav>
+  <span class="progress" aria-hidden="true"></span>
 </div></header>
 <main id="contenido" class="wrap">
-<section class="head">
-  <span class="eyebrow">Ingresos</span>
-  <h1>¿Se recaudó lo que se prometió?</h1>
-  <p class="lede">Cada año el Congreso aprueba la <dfn title="La ley que fija cuánto espera cobrar el gobierno en el año, concepto por concepto.">Ley de Ingresos</dfn>. Aquí comparamos esa promesa con lo que de verdad entró a la caja.</p>
+<section class="opener">
+  <div class="chap"><b>02</b><span class="eyebrow">Ingresos · ¿de dónde sale el dinero?</span></div>
+  <h1>Más de la mitad de lo que entra son dos impuestos: ISR e IVA.</h1>
+  <p class="lede">Cada otoño el Congreso aprueba la <dfn title="La ley que fija cuánto espera cobrar el gobierno en el año, concepto por concepto.">Ley de Ingresos</dfn>, que es la promesa de cuánto se va a cobrar. Aquí comparamos esa promesa con lo que de verdad entró a la caja.</p>
+  <aside class="tldr" aria-label="En 30 segundos">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><span>De cada 100 pesos que entraron en 2025, <b>35 fueron ISR y 18 IVA</b>. El petróleo, que antes sostenía al gobierno, ya solo aporta 15.</span></li>
+      <li><span>En 2025 se cobró <b>2.1% más</b> de lo prometido. El único impuesto que se quedó corto fue el IEPS (−6%).</span></li>
+      <li><span>En 2026 va <b>atrasado</b>: el ISR lleva 72% de su meta cuando a la misma fecha de 2025 llevaba 78%. El IVA, en cambio, va adelantado.</span></li>
+    </ul>
+  </aside>
 </section>
 
-<section>
-  <div class="head">
-    <span class="eyebrow">2025 · año cerrado</span>
-    <h2>En 2025 se cobró un poco más de lo esperado, salvo el IEPS</h2>
-    <p class="lede">El IEPS es el impuesto a gasolinas, refrescos, alcohol y tabaco. Quedó 6% por debajo de la meta, mientras que los impuestos a la importación la superaron.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">2025 · composición</span>
+    <h2>De cada 100 pesos que entraron…</h2>
+    <p class="lede">El ISR lo pagan las empresas sobre sus ganancias y las personas sobre su sueldo (te lo retienen en la nómina). El IVA es el 16% que se suma al precio de casi todo lo que compras. Así, aunque no hagas declaración, pagas impuestos.</p>
   </div>
-  <div class="grid2">
-    <div class="panel"><h3>Diferencia contra lo esperado</h3><div id="esperado-2025"><p class="loading">Cargando…</p></div>
-      <div class="legend"><span><i style="background:var(--up)"></i>Se cobró más</span><span><i style="background:var(--down)"></i>Se cobró menos</span></div></div>
-    <div id="tabla-2025"></div>
-  </div>
-  <p class="note">Las cifras están en miles de millones de pesos (mmdp). Para «Ingresos totales» se resta la deuda que la Ley de Ingresos también cuenta como ingreso.</p>
+  <div class="panel"><div id="w-ing"><p class="loading">Cargando…</p></div></div>
 </section>
 
-<section>
-  <div class="head">
-    <span class="eyebrow">2026 · acumulado a <span id="ult">…</span></span>
-    <h2>En 2026 la recaudación va más lenta que el año pasado</h2>
-    <p class="lede">Cada barra muestra qué parte de la meta anual ya se cobró. La rayita negra marca cuánto se llevaba a la misma fecha de 2025. El ISR va atrás. Los impuestos a la importación van muy por debajo de una meta que se planeó mucho más alta.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">2025 · promesa contra realidad</span>
+    <h2>Se cumplió la meta, salvo el IEPS</h2>
+    <p class="lede">La rayita negra es la meta de la Ley de Ingresos y la barra es lo que se cobró. Si la barra pasa la rayita, se cobró más de lo prometido. El IEPS (gasolinas, refrescos, alcohol, tabaco) quedó corto. Los impuestos a la importación la superaron por 14%.</p>
   </div>
-  <div class="panel" id="pace"><p class="loading">Cargando…</p></div>
+  <div class="panel">
+    <div id="bullet"><p class="loading">Cargando…</p></div>
+    <div class="legend"><span><i class="tick" style="background:var(--ink)"></i>Meta (100%)</span><span><i style="background:var(--jade)"></i>Superó la meta</span><span><i style="background:var(--up)"></i>Quedó corto</span></div>
+  </div>
+  <div class="explain">
+    <div><b>Cómo se calcula</b><p>«Ingresos totales» resta la deuda nueva, porque la Ley de Ingresos también la cuenta como ingreso aunque sea dinero prestado.</p></div>
+  </div>
 </section>
 
-<section>
-  <div class="head">
-    <span class="eyebrow">ISR por año · 2015–2025</span>
-    <h2>El ISR es el impuesto más importante</h2>
-    <p class="lede">Lo pagan las empresas sobre sus ganancias y las personas sobre su sueldo (te lo retienen en la nómina). Es más de un tercio de todo lo que entra.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">2026 · acumulado a <span class="ult">…</span></span>
+    <h2>En 2026 se está cobrando más lento que el año pasado</h2>
+    <p class="lede">La barra es la parte de la meta anual que ya se cobró y la rayita es dónde iba 2025 a la misma fecha. Naranja significa que va más lento. Los impuestos a la importación tienen una meta mucho más alta para 2026 y van lejos de alcanzarla.</p>
   </div>
-  <div class="panel" id="isr-iva"><p class="loading">Cargando…</p></div>
+  <div class="panel">
+    <div id="pace"><p class="loading">Cargando…</p></div>
+    <div class="legend"><span><i style="background:var(--jade)"></i>Avance 2026</span><span><i style="background:var(--up)"></i>Más lento que en 2025</span><span><i class="tick" style="background:var(--ink)"></i>2025 a la misma fecha</span></div>
+  </div>
 </section>
 
-<section>
-  <div class="head">
-    <span class="eyebrow">SAT · listas públicas del artículo 69 del Código Fiscal</span>
-    <h2>Lo que no se cobró</h2>
-    <p class="lede">El SAT publica a quienes tienen deudas fiscales que ya no va a cobrar: <dfn title="El deudor no tiene bienes con qué pagar.">insolvencia</dfn> o <dfn title="Cobrar costaría más que la deuda.">incosteabilidad</dfn>. Publica también a quienes deben y no han pagado. Aquí solo mostramos totales, nunca nombres.</p>
+<section class="story">
+  <div class="q">
+    <span class="eyebrow">2015–2025 · miles de millones de pesos</span>
+    <h2>El petróleo dejó de ser la caja grande</h2>
+    <p class="lede">En 2015 el ISR dejaba 1.4 veces lo que dejaba el petróleo. En 2025 ya dejó 2.4 veces. Lo que paga cada trabajador y cada empresa sostiene cada vez más el gasto público.</p>
   </div>
-  <div class="bignums">
-    <div class="bignum debt"><span class="eyebrow">Deudas canceladas</span><span class="v" id="canc-total">…</span><span class="pp"><span id="canc-n">…</span> casos</span></div>
-    <div class="bignum out"><span class="eyebrow">El 1% más grande</span><span class="v" id="canc-top">…</span><span class="pp">del monto total cancelado</span></div>
-    <div class="bignum out"><span class="eyebrow">Solo 100 deudores</span><span class="v" id="canc-top100">…</span><span class="pp">entre todos</span></div>
+  <div class="panel"><div id="fuentes-hist"><p class="loading">Cargando…</p></div></div>
+  <div class="explain">
+    <div class="ojo"><b>Ojo</b><p>En 2022 el IEPS se desplomó porque el gobierno subsidió las gasolinas para que no subieran de precio: dejó de cobrar ese impuesto.</p></div>
   </div>
-  <p id="canc-tipo"></p>
-  <div class="panel"><h3>Monto cancelado por año</h3><div id="canc-anio"><p class="loading">Cargando…</p></div>
-    <p class="note">La mayor parte del monto se canceló de 2015 a 2019. De 2020 en adelante el SAT cancela sobre todo deudas pequeñas. El SAT publica estas listas por mandato del artículo 69 del Código Fiscal de la Federación.</p></div>
-  <p id="firmes"></p>
 </section>
 
+<a class="chcard new" href="/sat/" style="max-width:640px"><i>Relacionado · capítulo 05</i><h3>¿Y quién no paga?</h3><span>Las deudas fiscales que el SAT ya no cobrará y la lista de empresas que venden facturas falsas, con buscador.</span></a>
+
+<a class="next" href="/gasto/"><span><i>Capítulo 03 · Gasto</i><b>¿En qué se gasta y se respetó lo aprobado?</b></span><span class="arr" aria-hidden="true">→</span></a>
 </main>
+<div id="tip" role="tooltip"></div>
 <footer><div class="wrap">
+  <nav aria-label="Todas las secciones"><a href="/">01 · Resumen</a><a href="/ingresos/">02 · Ingresos</a><a href="/gasto/">03 · Gasto</a><a href="/estados/">04 · Estados</a><a href="/sat/">05 · Quién no paga</a><a href="/2027/">06 · 2027</a><a href="/glosario/">Glosario</a><a href="/fuentes/">Fuentes</a></nav>
   <p><b>Dineros</b> traduce las finanzas públicas de México a lenguaje claro. Es un proyecto ciudadano independiente: no es un sitio del gobierno.</p>
   <p>Todas las cifras vienen de fuentes oficiales (SHCP, SAT, DOF, CONAPO) y cada una se puede verificar en <a href="/fuentes/">Fuentes</a>. Montos en pesos corrientes, sin ajustar por inflación. Código abierto en <a href="https://github.com/danybgoode/dineros">GitHub</a>.</p>
 </div></footer>
-<script src="/assets/app.js?v=62362538" defer></script>
+<script src="/assets/app.js?v=ae3dc57b0a" defer></script>
 </body>
 </html>
