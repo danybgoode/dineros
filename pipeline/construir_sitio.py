@@ -43,6 +43,8 @@ LAYOUT = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/estilo.css?v={v}">
+<!-- tally: analítica propia (visitas, Web Vitals, errores; sin cookies). ~/dobby/tally -->
+<script defer src="https://tally.goldenfrijoles.com/t.js" data-site="dineros"></script>
 </head>
 <body data-page="{pagina}">
 <a class="skip" href="#contenido">Saltar al contenido</a>
